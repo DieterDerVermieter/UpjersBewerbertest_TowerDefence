@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     private EnemyData m_data;
 
     private MapLayout m_mapLayout;
-    private int m_nextWaypointIndex = 1;
+    private int m_nextWaypointIndex;
 
     private float m_currentHealth;
 
@@ -38,17 +38,19 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    public void Setup(EnemyData data, MapLayout mapLayout)
+    public void Setup(EnemyData data, MapLayout mapLayout, int nextWaypoint = 1)
     {
         m_data = data;
         m_mapLayout = mapLayout;
+
+        m_nextWaypointIndex = nextWaypoint;
     }
 
 
     private void Start()
     {
         if (m_data.CanFly)
-            m_nextWaypointIndex = m_mapLayout.WaypointCount - 1;
+            m_nextWaypointIndex = m_mapLayout.GetWaypointCount() - 1;
 
         m_currentHealth = m_data.MaxHealth;
     }
@@ -61,13 +63,13 @@ public class EnemyController : MonoBehaviour
 
         while(distanceLeft > 0)
         {
-            if(m_nextWaypointIndex >= m_mapLayout.WaypointCount)
+            if(m_nextWaypointIndex >= m_mapLayout.GetWaypointCount())
             {
                 m_reachedExit = true;
                 break;
             }
 
-            var targetPosition = m_mapLayout.WaypointPosition(m_nextWaypointIndex);
+            var targetPosition = m_mapLayout.GetWaypoint(m_nextWaypointIndex);
             var vectorToTarget = targetPosition - transform.position;
 
             var distance = distanceLeft;
@@ -111,6 +113,9 @@ public class EnemyController : MonoBehaviour
     public void Die()
     {
         GameManager.Instance.RewardCash(m_data.CashReward);
+
+        if (m_data.Child != null)
+            EnemySpawner.Instance.SpawnEnemy(m_data.Child, transform.position, m_nextWaypointIndex);
 
         Instantiate(m_data.DeathEffectPrefab, transform.position, Quaternion.identity, transform.parent);
         Destroy(gameObject);

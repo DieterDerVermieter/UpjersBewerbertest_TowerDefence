@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b3f802b677da54180f129f647d0cf8, type: 3}
-  m_Name: Skeleton
+  m_Name: SkeletonArmored
   m_EditorClassIdentifier: 
   DisplayName: Sekleton
-  Prefab: {fileID: 2859454996291436784, guid: f9981427d3c856c4a9b9e13230879267, type: 3}
-  MovementSpeed: 1
+  Prefab: {fileID: 2859454996291436784, guid: 57c360eebe5c09945ad8ce6d527bf8e4, type: 3}
+  LeakDamage: 5
+  CashReward: 2
+  MovementSpeed: 0.8
   CanFly: 0
-  MaxHealth: 15
+  MaxHealth: 25
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}
   DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
+  Child: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}

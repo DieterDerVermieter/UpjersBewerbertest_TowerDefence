@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerController : MonoBehaviour
+public class BuildingController : MonoBehaviour
 {
     [SerializeField] private Transform m_headContainer;
     [SerializeField] private Transform m_bulletSpawnPoint;

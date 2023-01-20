@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6920967648603012929}
   - component: {fileID: 6920967648603012930}
   m_Layer: 5
-  m_Name: Text_Cost
+  m_Name: Text_Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -222,9 +222,10 @@ GameObject:
   - component: {fileID: 6920967649194860770}
   - component: {fileID: 6920967649194860768}
   - component: {fileID: 6920967649194860769}
-  - component: {fileID: 6920967649194860783}
+  - component: {fileID: 142754047300782418}
+  - component: {fileID: 4352757276803231308}
   m_Layer: 5
-  m_Name: BuildingsList_Item
+  m_Name: BuildingShopItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -290,7 +291,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6920967649194860783
+--- !u!114 &142754047300782418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920967649194860771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13a8ae7f2e195145b9127f1c33bd96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iconImage: {fileID: 6920967648996345620}
+  m_priceText: {fileID: 6920967648603012930}
+--- !u!114 &4352757276803231308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

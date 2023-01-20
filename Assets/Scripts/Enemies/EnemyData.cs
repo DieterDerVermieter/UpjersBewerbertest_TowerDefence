@@ -20,4 +20,6 @@ public class EnemyData : ScriptableObject
     public float MaxHealth = 100.0f;
     public GameObject HitEffectPrefab;
     public GameObject DeathEffectPrefab;
+
+    public EnemyData Child;
 }

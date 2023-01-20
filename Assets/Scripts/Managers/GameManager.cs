@@ -71,7 +71,7 @@ public class GameManager : Singleton<GameManager>
         m_startWaveButton.interactable = CurrentState == GameState.Building;
 
         m_lifesText.text = CurrentLifes.ToString();
-        m_cashText.text = CurrentCash.ToString("#,#");
+        m_cashText.text = CurrentCash.ToString("#,#$");
     }
 
 
