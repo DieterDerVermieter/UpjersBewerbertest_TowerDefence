@@ -13,9 +13,23 @@ public class EnemyController : MonoBehaviour
     private int m_nextWaypointIndex = 1;
 
 
+    public static List<EnemyController> ActiveEnemies { get; private set; } = new List<EnemyController>();
+
+
     public void Setup(MapLayout mapLayout)
     {
         m_mapLayout = mapLayout;
+    }
+
+
+    private void OnEnable()
+    {
+        ActiveEnemies.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        ActiveEnemies.Remove(this);
     }
 
 

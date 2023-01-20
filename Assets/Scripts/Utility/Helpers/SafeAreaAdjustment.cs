@@ -5,15 +5,17 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class SafeAreaAdjustment : MonoBehaviour
 {
-    RectTransform m_panel;
+    [SerializeField] private bool m_conformX = true;
+    [SerializeField] private bool m_conformY = true;
 
-    Rect m_lastSafeArea = new Rect(0, 0, 0, 0);
-    Vector2Int m_lastScreenSize = new Vector2Int(0, 0);
-    ScreenOrientation m_lastOrientation = ScreenOrientation.AutoRotation;
+    [SerializeField] private bool m_logging = false;
 
-    [SerializeField] bool m_conformX = true;
-    [SerializeField] bool m_conformY = true;
-    [SerializeField] bool m_logging = false;
+
+    private RectTransform m_panel;
+
+    private Rect m_lastSafeArea;
+    private Vector2Int m_lastScreenSize;
+    private ScreenOrientation m_lastOrientation = ScreenOrientation.AutoRotation;
 
 
     private void Update()
@@ -27,13 +29,14 @@ public class SafeAreaAdjustment : MonoBehaviour
 
     private void Refresh()
     {
-        Rect safeArea = GetSafeArea();
+        var safeArea = GetSafeArea();
 
         if (safeArea != m_lastSafeArea
             || Screen.width != m_lastScreenSize.x
             || Screen.height != m_lastScreenSize.y
             || Screen.orientation != m_lastOrientation)
         {
+            m_lastSafeArea = safeArea;
             // Fix for having auto-rotate off and manually forcing a screen orientation.
             // See https://forum.unity.com/threads/569236/#post-4473253 and https://forum.unity.com/threads/569236/page-2#post-5166467
             m_lastScreenSize.x = Screen.width;
@@ -52,30 +55,28 @@ public class SafeAreaAdjustment : MonoBehaviour
     }
 
 
-    private void ApplySafeArea(Rect safeRect)
+    private void ApplySafeArea(Rect safeArea)
     {
         // Ignore x-axis?
         if (!m_conformX)
         {
-            safeRect.x = 0;
-            safeRect.width = Screen.width;
+            safeArea.x = 0;
+            safeArea.width = Screen.width;
         }
 
         // Ignore y-axis?
         if (!m_conformY)
         {
-            safeRect.y = 0;
-            safeRect.height = Screen.height;
+            safeArea.y = 0;
+            safeArea.height = Screen.height;
         }
-
-        m_lastSafeArea = safeRect;
 
         // Check for invalid screen startup state on some Samsung devices (see below)
         if (Screen.width > 0 && Screen.height > 0)
         {
             // Convert safe area rectangle from absolute pixels to normalised anchor coordinates
-            Vector2 anchorMin = safeRect.position;
-            Vector2 anchorMax = safeRect.position + safeRect.size;
+            Vector2 anchorMin = safeArea.position;
+            Vector2 anchorMax = safeArea.position + safeArea.size;
             anchorMin.x /= Screen.width;
             anchorMin.y /= Screen.height;
             anchorMax.x /= Screen.width;
@@ -93,7 +94,7 @@ public class SafeAreaAdjustment : MonoBehaviour
         if (m_logging)
         {
             Debug.LogFormat("New safe area applied to {0}: x={1}, y={2}, w={3}, h={4} on full extents w={5}, h={6}",
-            name, safeRect.x, safeRect.y, safeRect.width, safeRect.height, Screen.width, Screen.height);
+            name, safeArea.x, safeArea.y, safeArea.width, safeArea.height, Screen.width, Screen.height);
         }
     }
 }

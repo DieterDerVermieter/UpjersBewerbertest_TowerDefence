@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class EnemySpawner : Singleton<EnemySpawner>
 {
-    [System.Serializable]
-    public class BatchData
-    {
-        public EnemyData Enemy;
-        public int Count = 1;
-        public float Delay = 0.0f;
-    }
-
     public class ActiveBatch
     {
-        public BatchData Batch;
+        public WaveData.Batch Batch;
 
         public int CountLeft;
         public float Timer;
 
 
-        public ActiveBatch(BatchData data)
+        public ActiveBatch(WaveData.Batch data)
         {
             Batch = data;
 
@@ -30,60 +22,32 @@ public class EnemySpawner : Singleton<EnemySpawner>
     }
 
 
-    [System.Serializable]
-    public class DelayedBatch
-    {
-        public BatchData Batch;
-        public float Delay = 0.0f;
-    }
-
-    [System.Serializable]
-    public class MultiBatchData
-    {
-        public List<DelayedBatch> Batches = new List<DelayedBatch>();
-    }
-
-    public class ActiveMultiBatch
-    {
-        public Queue<DelayedBatch> Batches = new Queue<DelayedBatch>();
-        public float Timer = 0.0f;
-
-
-        public ActiveMultiBatch(MultiBatchData data)
-        {
-            foreach (var batch in data.Batches)
-            {
-                Batches.Enqueue(batch);
-            }
-        }
-    }
-
-
     [SerializeField] private MapLayout m_mapLayout;
-
-    [Header("Testing")]
-    [SerializeField] private MultiBatchData m_testMultiBatch;
 
 
     private List<ActiveBatch> m_activeBatches = new List<ActiveBatch>();
-    private Queue<ActiveMultiBatch> m_multiBatchQueue = new Queue<ActiveMultiBatch>();
+
+    private Queue<WaveData> m_waveQueue = new Queue<WaveData>();
+    private float m_waveTimer;
+    private int m_waveIndex;
 
 
-    private void Start()
+    public bool IsSpawning { get; private set; }
+
+
+    public void SpawnWave(WaveData data)
     {
-        SpawnMultiBatch(m_testMultiBatch);
+        m_waveQueue.Enqueue(data);
+
+        IsSpawning = true;
     }
 
 
-    public void SpawnMultiBatch(MultiBatchData data)
-    {
-        m_multiBatchQueue.Enqueue(new ActiveMultiBatch(data));
-    }
-
-
-    public void SpawnBatch(BatchData data)
+    public void SpawnBatch(WaveData.Batch data)
     {
         m_activeBatches.Add(new ActiveBatch(data));
+
+        IsSpawning = true;
     }
 
 
@@ -94,26 +58,35 @@ public class EnemySpawner : Singleton<EnemySpawner>
         enemy.transform.position = m_mapLayout.WaypointPosition(0);
 
         enemy.Setup(m_mapLayout);
+
+        IsSpawning = true;
     }
 
 
     private void Update()
     {
-        if(m_multiBatchQueue.TryPeek(out var currentMultiBatch))
+        if (!IsSpawning)
+            return;
+
+        if(m_waveQueue.TryPeek(out var currentWave))
         {
-            currentMultiBatch.Timer -= Time.deltaTime;
+            m_waveTimer -= Time.deltaTime;
 
-            if(currentMultiBatch.Timer <= 0)
+            if(m_waveTimer <= 0)
             {
-                SpawnBatch(currentMultiBatch.Batches.Dequeue().Batch);
+                SpawnBatch(currentWave.Batches[m_waveIndex].Batch);
+                m_waveIndex++;
 
-                if(currentMultiBatch.Batches.TryPeek(out var nextBatch))
+                if (m_waveIndex < currentWave.Batches.Count)
                 {
-                    currentMultiBatch.Timer += nextBatch.Delay;
+                    m_waveTimer += currentWave.Batches[m_waveIndex].Delay;
                 }
                 else
                 {
-                    m_multiBatchQueue.Dequeue();
+                    m_waveQueue.Dequeue();
+
+                    m_waveTimer = 0;
+                    m_waveIndex = 0;
                 }
             }
         }
@@ -140,5 +113,8 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
             i++;
         }
+
+        if (m_waveQueue.Count <= 0 && m_activeBatches.Count <= 0)
+            IsSpawning = false;
     }
 }
