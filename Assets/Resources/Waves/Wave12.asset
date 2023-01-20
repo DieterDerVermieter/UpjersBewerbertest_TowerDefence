@@ -10,11 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4e2fd0083d4ac64e8c9db03ff60183f, type: 3}
-  m_Name: Wave1
+  m_Name: Wave12
   m_EditorClassIdentifier: 
   Batches:
   - Batch:
-      Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
-      Count: 20
+      Enemy: {fileID: 11400000, guid: b31924ab579ffea49a6c9670a531e779, type: 2}
+      Count: 15
       Delay: 1
     Delay: 0
+  - Batch:
+      Enemy: {fileID: 11400000, guid: d0a00e0333f1f4d49bab745778c64516, type: 2}
+      Count: 10
+      Delay: 1
+    Delay: 15
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 2b52240b11bd69547a4f71744aabba60, type: 2}
+      Count: 5
+      Delay: 1
+    Delay: 10

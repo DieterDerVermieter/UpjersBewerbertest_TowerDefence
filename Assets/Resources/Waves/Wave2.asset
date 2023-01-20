@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Batches:
   - Batch:
-      Enemy: {fileID: 11400000, guid: 8e2c8e264c7df3347a98f44b9a2e53fb, type: 2}
-      Count: 10
+      Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
+      Count: 30
       Delay: 1
     Delay: 0
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
-      Count: 5
-      Delay: 0.5
-    Delay: 10

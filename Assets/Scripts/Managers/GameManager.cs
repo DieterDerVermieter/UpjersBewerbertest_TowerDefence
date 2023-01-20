@@ -15,6 +15,10 @@ public class GameManager : Singleton<GameManager>
 
     [Header("References")]
     [SerializeField] private Button m_startWaveButton;
+    [SerializeField] private TMP_Text m_startWaveButtonText;
+
+    [SerializeField] private Button m_fastForwardButton;
+    [SerializeField] private TMP_Text m_fastForwardButtonText;
 
     [SerializeField] private TMP_Text m_lifesText;
     [SerializeField] private TMP_Text m_cashText;
@@ -29,6 +33,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int m_endOfRoundCash = 100;
 
 
+    private float m_gameSpeedMultiplier = 1;
+
+
     public GameState CurrentState { get; private set; }
 
     public int CurrentWave { get; private set; }
@@ -40,11 +47,13 @@ public class GameManager : Singleton<GameManager>
     private void OnEnable()
     {
         m_startWaveButton.onClick.AddListener(StartWaveButtonOnClick);
+        m_fastForwardButton.onClick.AddListener(FastForwardButtonOnClick);
     }
 
     private void OnDisable()
     {
         m_startWaveButton.onClick.RemoveListener(StartWaveButtonOnClick);
+        m_fastForwardButton.onClick.RemoveListener(FastForwardButtonOnClick);
     }
 
 
@@ -54,6 +63,9 @@ public class GameManager : Singleton<GameManager>
 
         CurrentLifes = m_startingLifes;
         CurrentCash = m_startingCash;
+
+        m_startWaveButtonText.text = $"Start Wave {CurrentWave + 1}";
+        m_fastForwardButtonText.text = $"{m_gameSpeedMultiplier}x";
     }
 
 
@@ -61,8 +73,14 @@ public class GameManager : Singleton<GameManager>
     {
         if (CurrentState == GameState.Defending)
         {
+            Time.timeScale = m_gameSpeedMultiplier;
+
             if (!EnemySpawner.Instance.IsSpawning && EnemyController.ActiveEnemies.Count <= 0)
             {
+                m_startWaveButtonText.text = $"Start Wave {CurrentWave + 1}";
+
+                Time.timeScale = 1;
+
                 RewardCash(m_endOfRoundCash);
                 SetGameState(GameState.Building);
             }
@@ -87,6 +105,20 @@ public class GameManager : Singleton<GameManager>
             return;
 
         StartNextWave();
+    }
+
+    private void FastForwardButtonOnClick()
+    {
+        if(m_gameSpeedMultiplier < 8)
+        {
+            m_gameSpeedMultiplier *= 2;
+        }
+        else
+        {
+            m_gameSpeedMultiplier = 1;
+        }
+
+        m_fastForwardButtonText.text = $"{m_gameSpeedMultiplier}x";
     }
 
 

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b3f802b677da54180f129f647d0cf8, type: 3}
-  m_Name: Skeleton
+  m_Name: RoyalBat
   m_EditorClassIdentifier: 
-  DisplayName: Sekleton
-  Prefab: {fileID: 2859454996291436784, guid: 9afe37fca5565b248b21bebff52f0fde, type: 3}
-  LeakDamage: 1
-  CashReward: 1
-  MovementSpeed: 1
-  CanFly: 0
+  DisplayName: Royal Bat
+  Prefab: {fileID: 2859454996291436784, guid: eebb05317934c6541bcc910ee87a4b54, type: 3}
+  LeakDamage: 3
+  CashReward: 3
+  MovementSpeed: 2
+  CanFly: 1
   MaxHealth: 5
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}
   DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
-  Child: {fileID: 0}
+  Child: {fileID: 11400000, guid: e484c53ab78650a409c693ce2daa24fb, type: 2}

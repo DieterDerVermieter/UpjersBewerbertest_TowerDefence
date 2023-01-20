@@ -15,16 +15,11 @@ MonoBehaviour:
   Batches:
   - Batch:
       Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
-      Count: 10
-      Delay: 0.5
+      Count: 20
+      Delay: 1
     Delay: 0
   - Batch:
-      Enemy: {fileID: 11400000, guid: 8e2c8e264c7df3347a98f44b9a2e53fb, type: 2}
-      Count: 10
-      Delay: 1
-    Delay: 2
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 9328471ab48d483408f57f8f717a624f, type: 2}
+      Enemy: {fileID: 11400000, guid: b31924ab579ffea49a6c9670a531e779, type: 2}
       Count: 5
-      Delay: 2
-    Delay: 10
+      Delay: 1
+    Delay: 20

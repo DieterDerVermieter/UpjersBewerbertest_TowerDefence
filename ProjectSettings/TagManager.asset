@@ -44,9 +44,15 @@ TagManager:
   - name: Floor
     uniqueID: 3220391389
     locked: 0
-  - name: Objects
+  - name: GroundEnemies
     uniqueID: 1145291277
     locked: 0
+  - name: Buildings
+    uniqueID: 1053378275
+    locked: 0
+  - name: AirEnemies
+    uniqueID: 2434544049
+    locked: 0
   - name: Effects
-    uniqueID: 1518145915
+    uniqueID: 2716185133
     locked: 0
