@@ -53,11 +53,11 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
     public void SpawnEnemy(EnemyData data)
     {
-        var enemy = Instantiate(data.Prefab);
+        var enemy = Instantiate(data.Prefab, transform);
 
         enemy.transform.position = m_mapLayout.WaypointPosition(0);
 
-        enemy.Setup(m_mapLayout);
+        enemy.Setup(data, m_mapLayout);
 
         IsSpawning = true;
     }

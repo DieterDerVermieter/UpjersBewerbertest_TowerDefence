@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2859454996291436786}
   - component: {fileID: 2859454996291436784}
-  - component: {fileID: 2859454996291436785}
+  - component: {fileID: 1367407095812760856}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -46,10 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0758c01e658ab5645a8103a3eb910b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementSpeed: 1.2
-  m_canFly: 1
---- !u!70 &2859454996291436785
-CapsuleCollider2D:
+--- !u!58 &1367407095812760856
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -61,9 +59,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.07692075}
-  m_Size: {x: 0.49916324, y: 0.49916327}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!1 &2859454996351495993
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5423604231063222515, guid: 6ea977104f368d6419063c3257fb7de6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.088
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5423604231063222515, guid: 6ea977104f368d6419063c3257fb7de6, type: 3}
       propertyPath: m_LocalPosition.z

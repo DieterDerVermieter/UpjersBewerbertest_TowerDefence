@@ -33,6 +33,9 @@ public class CameraSizeController : MonoBehaviour
     {
         var captureArea = new Rect();
 
+        if (captureArea.size == Vector2.zero)
+            return;
+
         var worldCorners = new Vector3[4];
         m_captureTransform.GetWorldCorners(worldCorners);
 
@@ -62,7 +65,6 @@ public class CameraSizeController : MonoBehaviour
 
         transform.position = Vector3.zero;
         var worldCenter = m_camera.ScreenToWorldPoint(captureArea.center);
-        Debug.Log($"center={captureArea.center}, worldCenter ={worldCenter}");
 
         var positionXY = m_targetArea.position - new Vector2(worldCenter.x, worldCenter.y);
 

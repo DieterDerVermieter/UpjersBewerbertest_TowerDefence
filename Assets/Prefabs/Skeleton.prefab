@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2859454996291436786}
   - component: {fileID: 2859454996291436784}
-  - component: {fileID: 2859454996291436785}
+  - component: {fileID: 5060595606002981058}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -130,9 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0758c01e658ab5645a8103a3eb910b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementSpeed: 1
---- !u!70 &2859454996291436785
-CapsuleCollider2D:
+--- !u!58 &5060595606002981058
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,9 +143,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.19213086}
-  m_Size: {x: 0.5615517, y: 0.86046755}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
 --- !u!1 &2859454996351495993
 GameObject:
   m_ObjectHideFlags: 0
