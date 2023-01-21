@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     [SerializeField] private float m_movementSpeed = 5.0f;
 
@@ -19,7 +19,7 @@ public class BulletController : MonoBehaviour
     private int m_currentPierce;
     private float m_currentLifetime;
 
-    private HashSet<EnemyController> m_hitSet = new HashSet<EnemyController>();
+    private List<int> m_hitList = new List<int>();
 
     private static RaycastHit2D[] m_raycastResults = new RaycastHit2D[100];
 
@@ -50,7 +50,7 @@ public class BulletController : MonoBehaviour
             var result = m_raycastResults[i];
             if(result.collider.TryGetComponent<EnemyController>(out var enemy))
             {
-                if (m_hitSet.Contains(enemy))
+                if (m_hitList.Contains(enemy.Identifier))
                     continue;
 
                 if (result.distance < distance)
@@ -67,7 +67,7 @@ public class BulletController : MonoBehaviour
         {
             hitTarget.TakeDamage(m_hitDamage);
 
-            m_hitSet.Add(hitTarget);
+            m_hitList.Add(hitTarget.Identifier);
             m_currentPierce++;
 
             if(m_currentPierce >= m_maxPierce)

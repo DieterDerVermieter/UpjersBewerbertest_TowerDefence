@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Batches:
   - Batch:
+      Enemy: {fileID: 11400000, guid: d0a00e0333f1f4d49bab745778c64516, type: 2}
+      Count: 4
+      Delay: 0.5
+    Delay: 0
+  - Batch:
       Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
       Count: 15
-      Delay: 1
-    Delay: 0
+      Delay: 0.25
+    Delay: 6
   - Batch:
       Enemy: {fileID: 11400000, guid: b31924ab579ffea49a6c9670a531e779, type: 2}
       Count: 15
-      Delay: 1
-    Delay: 15
-  - Batch:
-      Enemy: {fileID: 11400000, guid: d0a00e0333f1f4d49bab745778c64516, type: 2}
-      Count: 4
-      Delay: 1
-    Delay: 15
+      Delay: 0.5
+    Delay: 3.75

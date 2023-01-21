@@ -12,10 +12,14 @@ public class EnemyController : MonoBehaviour
     private MapLayout m_mapLayout;
     private int m_nextWaypointIndex;
 
+    private int m_identifier;
+
     private float m_currentHealth;
 
 
     public static List<EnemyController> ActiveEnemies { get; private set; } = new List<EnemyController>();
+
+    public int Identifier => m_identifier;
 
     public float HitRadius => m_circleCollider.radius;
     public Vector3 HitCenter => transform.position + (Vector3)m_circleCollider.offset;
@@ -38,12 +42,14 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    public void Setup(EnemyData data, MapLayout mapLayout, int nextWaypoint = 1)
+    public void Setup(EnemyData data, MapLayout mapLayout, int nextWaypoint, int identifier)
     {
         m_data = data;
-        m_mapLayout = mapLayout;
 
+        m_mapLayout = mapLayout;
         m_nextWaypointIndex = nextWaypoint;
+
+        m_identifier = identifier;
     }
 
 
@@ -115,7 +121,7 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.RewardCash(m_data.CashReward);
 
         if (m_data.Child != null)
-            EnemySpawner.Instance.SpawnEnemy(m_data.Child, transform.position, m_nextWaypointIndex);
+            EnemySpawner.Instance.SpawnEnemy(m_data.Child, transform.position, m_nextWaypointIndex, m_identifier);
 
         Instantiate(m_data.DeathEffectPrefab, transform.position, Quaternion.identity, transform.parent);
         Destroy(gameObject);
@@ -127,5 +133,19 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.LeakLifes(m_data.LeakDamage);
 
         Destroy(gameObject);
+    }
+
+
+    public float Progress()
+    {
+        var waypointA = m_mapLayout.GetWaypoint(m_nextWaypointIndex - 1);
+        var waypointB = m_mapLayout.GetWaypoint(m_nextWaypointIndex);
+
+        return m_nextWaypointIndex + transform.position.InverseLerp(waypointA, waypointB);
+    }
+
+    public float Strength()
+    {
+        return m_data.LeakDamage;
     }
 }

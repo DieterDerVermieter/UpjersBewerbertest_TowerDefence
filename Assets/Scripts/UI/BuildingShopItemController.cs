@@ -10,16 +10,16 @@ public class BuildingShopItemController : MonoBehaviour
     [SerializeField] private TMP_Text m_priceText;
 
 
-    private BuildingData m_data;
+    private TowerData m_data;
 
 
-    public void Setup(BuildingData data)
+    public void Setup(TowerData data)
     {
         m_data = data;
     }
 
 
-    public BuildingData GetData() => m_data;
+    public TowerData GetData() => m_data;
 
 
     private void Start()

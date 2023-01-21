@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class BuildingShopController : MonoBehaviour, IPointerExitHandler
 {
-    public UnityEvent<PointerEventData, BuildingData> OnBuildingDragged;
+    public UnityEvent<PointerEventData, TowerData> OnBuildingDragged;
 
 
     public void OnPointerExit(PointerEventData eventData)

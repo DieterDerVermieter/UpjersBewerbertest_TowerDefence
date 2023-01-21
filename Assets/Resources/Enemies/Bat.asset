@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Bat
   Prefab: {fileID: 2859454996291436784, guid: 3fcf63ceeb0395a4cbc7fec3684e30f4, type: 3}
-  MovementSpeed: 1.5
+  LeakDamage: 1
+  CashReward: 1
+  MovementSpeed: 2.7
   CanFly: 1
   MaxHealth: 5
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}
   DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
+  Child: {fileID: 0}

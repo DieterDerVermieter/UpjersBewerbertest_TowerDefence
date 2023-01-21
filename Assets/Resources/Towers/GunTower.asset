@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe974c60442edbd4b84cef91285c35ad, type: 3}
-  m_Name: TestTower
+  m_Name: GunTower
   m_EditorClassIdentifier: 
-  DisplayName: Test Tower
-  Icon: {fileID: 21300000, guid: 2af1a7323d104499d992be9a2d8dc933, type: 3}
-  Prefab: {fileID: 8287093154489190693, guid: 6febb82fedacfd04c9e0bded0aca6966, type: 3}
-  Price: 100
-  Size: 2
+  DisplayName: Gun Tower
+  Icon: {fileID: -894825544, guid: 6addc9e306f90b14b825ea70b3636fcf, type: 3}
+  Prefab: {fileID: 1593140798008447108, guid: 8d41ef229200aa641a992112059897cb, type: 3}
+  Price: 250
+  AttackSpeed: 0.7
+  AttackSpread: 0
+  ProjectilePrefab: {fileID: 8368848229916934228, guid: 3c65cd6626b04a34d941ef1ef12be334, type: 3}

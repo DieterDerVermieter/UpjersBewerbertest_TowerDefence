@@ -15,8 +15,8 @@ MonoBehaviour:
   DisplayName: Royal Bat
   Prefab: {fileID: 2859454996291436784, guid: eebb05317934c6541bcc910ee87a4b54, type: 3}
   LeakDamage: 3
-  CashReward: 3
-  MovementSpeed: 2
+  CashReward: 1
+  MovementSpeed: 4.8
   CanFly: 1
   MaxHealth: 5
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}

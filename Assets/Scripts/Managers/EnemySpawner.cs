@@ -31,6 +31,8 @@ public class EnemySpawner : Singleton<EnemySpawner>
     private float m_waveTimer;
     private int m_waveIndex;
 
+    private int m_spawnIndex;
+
 
     public bool IsSpawning { get; private set; }
 
@@ -53,20 +55,16 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
     public void SpawnEnemy(EnemyData data)
     {
-        var enemy = Instantiate(data.Prefab, transform);
-
-        enemy.transform.position = m_mapLayout.GetWaypoint(0);
-
-        enemy.Setup(data, m_mapLayout);
+        SpawnEnemy(data, m_mapLayout.GetWaypoint(0), 1, m_spawnIndex);
+        m_spawnIndex++;
     }
 
-    public void SpawnEnemy(EnemyData data, Vector3 position, int nextWaypoint)
+    public void SpawnEnemy(EnemyData data, Vector3 position, int nextWaypoint, int identifier)
     {
         var enemy = Instantiate(data.Prefab, transform);
 
         enemy.transform.position = position;
-
-        enemy.Setup(data, m_mapLayout, nextWaypoint);
+        enemy.Setup(data, m_mapLayout, nextWaypoint, identifier);
     }
 
 

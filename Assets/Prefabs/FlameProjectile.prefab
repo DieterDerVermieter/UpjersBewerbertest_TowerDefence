@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1925002306083026775}
+  - {fileID: 2224499241331502236}
   m_Father: {fileID: 1925002305777294807}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 1925002305777294807}
   - component: {fileID: 8368848229916934228}
   m_Layer: 0
-  m_Name: TestBullet
+  m_Name: FlameProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,12 +90,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3141e224d454f147a3ac0ac7ca37044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementSpeed: 10
-  m_hitRadius: 0.1
-  m_hitDamage: 10
-  m_maxPierce: 1
-  m_maxLifetime: 5
---- !u!1 &1925002306083026774
+  m_movementSpeed: 5
+  m_hitRadius: 0.3
+  m_hitDamage: 2
+  m_maxPierce: 20
+  m_maxLifetime: 0.4
+--- !u!1 &8815728629540762262
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,8 +103,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1925002306083026775}
-  - component: {fileID: 1925002306083026772}
+  - component: {fileID: 2224499241331502236}
+  - component: {fileID: 7976147255279053033}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -112,28 +112,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1925002306083026775
+--- !u!4 &2224499241331502236
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925002306083026774}
+  m_GameObject: {fileID: 8815728629540762262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1977, y: 0.1977, z: 0.1977}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1925002304447414228}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1925002306083026772
+--- !u!212 &7976147255279053033
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925002306083026774}
+  m_GameObject: {fileID: 8815728629540762262}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6099541, b: 0.2971698, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

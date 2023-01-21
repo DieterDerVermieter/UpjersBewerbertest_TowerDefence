@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Sci Fi Robot
   Prefab: {fileID: 2859454996291436784, guid: 96683bdf3e9561248acbb52a896ea859, type: 3}
-  LeakDamage: 5
-  CashReward: 5
-  MovementSpeed: 2
+  LeakDamage: 4
+  CashReward: 1
+  MovementSpeed: 4.8
   CanFly: 0
-  MaxHealth: 5
+  MaxHealth: 10
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}
   DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
   Child: {fileID: 11400000, guid: d0a00e0333f1f4d49bab745778c64516, type: 2}

@@ -15,10 +15,10 @@ MonoBehaviour:
   DisplayName: Zombie
   Prefab: {fileID: 2859454996291436784, guid: 7f11fd0e62adec34b811c2b8117ca586, type: 3}
   LeakDamage: 2
-  CashReward: 2
-  MovementSpeed: 1.2
+  CashReward: 1
+  MovementSpeed: 2.1
   CanFly: 0
-  MaxHealth: 5
+  MaxHealth: 10
   HitEffectPrefab: {fileID: 7665646798308225049, guid: 043a80b8e86e7aa41bd6ff9b9bf60cfb, type: 3}
   DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
   Child: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}

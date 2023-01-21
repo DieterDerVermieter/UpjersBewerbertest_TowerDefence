@@ -14,8 +14,6 @@ public class MapLayout : MonoBehaviour
 
     [SerializeField] private Collider2D m_pathCollider;
 
-    [SerializeField] private int m_newGridDivisions = 1;
-
 
     [HideInInspector][SerializeField] private Vector3[] m_waypoints;
 
@@ -24,19 +22,20 @@ public class MapLayout : MonoBehaviour
     [HideInInspector][SerializeField] private Vector2Int m_gridSize;
     [HideInInspector][SerializeField] private Vector3 m_gridOffset;
 
-    [HideInInspector][SerializeField] private int m_gridDivisions;
+
+    public const int CELLS_PER_TILE = 2;
+    public const float CELL_SIZE = 1.0f / CELLS_PER_TILE;
 
 
     public int GetWaypointCount() => m_waypoints.Length;
     public Vector3 GetWaypoint(int index) => m_waypoints[index];
 
     public Vector2Int GetGridSize() => m_gridSize;
-    public float GetGridCellSize() => 1.0f / m_gridDivisions;
 
     public int GetGridCell(int x, int y) => m_grid[x + y * m_gridSize.x];
 
-    public Vector3 GridToWorldPosition(int x, int y) => new Vector3(x + 0.5f, y + 0.5f) * GetGridCellSize() + m_gridOffset;
-    public Vector2Int WorldToGridPosition(Vector3 worldPosition) => Vector2Int.FloorToInt((worldPosition - m_gridOffset) / GetGridCellSize());
+    public Vector3 GridToWorldPosition(int x, int y) => new Vector3(x + 0.5f, y + 0.5f) * CELL_SIZE + m_gridOffset;
+    public Vector2Int WorldToGridPosition(Vector3 worldPosition) => Vector2Int.FloorToInt((worldPosition - m_gridOffset) * CELLS_PER_TILE);
 
     public void SetGridCell(int x, int y, int value) => m_grid[x + y * m_gridSize.x] = value;
 
@@ -70,8 +69,6 @@ public class MapLayout : MonoBehaviour
     [MyBox.ButtonMethod]
     private void GeneratePath()
     {
-        //UnityEditor.Undo.RecordObject(gameObject, "Generate Path");
-
         m_waypoints = new Vector3[m_waypointContainer.childCount];
 
         for (int i = 0; i < m_waypointContainer.childCount; i++)
@@ -86,11 +83,8 @@ public class MapLayout : MonoBehaviour
     [MyBox.ButtonMethod]
     private void GenerateGrid()
     {
-        //UnityEditor.Undo.RecordObject(gameObject, "Generate Grid");
+        m_gridSize = m_newGridSize * CELLS_PER_TILE;
 
-        m_gridDivisions = m_newGridDivisions;
-
-        m_gridSize = m_newGridSize * m_gridDivisions;
         m_gridOffset = m_newGridOffset;
 
         m_grid = new int[m_gridSize.x * m_gridSize.y];
@@ -143,7 +137,7 @@ public class MapLayout : MonoBehaviour
 
                     gridColor.a = 0.3f;
                     Gizmos.color = gridColor;
-                    Gizmos.DrawCube(cellPosition, 0.7f * Vector3.one * GetGridCellSize());
+                    Gizmos.DrawCube(cellPosition, 0.7f * Vector3.one * CELL_SIZE);
                 }
             }
         }

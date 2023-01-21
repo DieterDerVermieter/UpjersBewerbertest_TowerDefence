@@ -33,14 +33,14 @@ public class CameraSizeController : MonoBehaviour
     {
         var captureArea = new Rect();
 
-        if (captureArea.size == Vector2.zero)
-            return;
-
         var worldCorners = new Vector3[4];
         m_captureTransform.GetWorldCorners(worldCorners);
 
         captureArea.min = worldCorners[0];
         captureArea.max = worldCorners[2];
+
+        if (captureArea.size == Vector2.zero)
+            return;
 
         if (captureArea != m_lastCaptureArea
             || m_targetArea != m_lastTargetArea)
