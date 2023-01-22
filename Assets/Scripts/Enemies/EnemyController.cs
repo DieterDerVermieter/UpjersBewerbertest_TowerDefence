@@ -9,7 +9,6 @@ public class EnemyController : MonoBehaviour
 
     private EnemyData m_data;
 
-    private MapLayout m_mapLayout;
     private int m_nextWaypointIndex;
 
     private int m_identifier;
@@ -42,13 +41,10 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    public void Setup(EnemyData data, MapLayout mapLayout, int nextWaypoint, int identifier)
+    public void Setup(EnemyData data, int nextWaypoint, int identifier)
     {
         m_data = data;
-
-        m_mapLayout = mapLayout;
         m_nextWaypointIndex = nextWaypoint;
-
         m_identifier = identifier;
     }
 
@@ -56,7 +52,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         if (m_data.CanFly)
-            m_nextWaypointIndex = m_mapLayout.GetWaypointCount() - 1;
+            m_nextWaypointIndex = MapLayout.Instance.GetWaypointCount() - 1;
 
         m_currentHealth = m_data.MaxHealth;
     }
@@ -69,13 +65,13 @@ public class EnemyController : MonoBehaviour
 
         while(distanceLeft > 0)
         {
-            if(m_nextWaypointIndex >= m_mapLayout.GetWaypointCount())
+            if(m_nextWaypointIndex >= MapLayout.Instance.GetWaypointCount())
             {
                 m_reachedExit = true;
                 break;
             }
 
-            var targetPosition = m_mapLayout.GetWaypoint(m_nextWaypointIndex);
+            var targetPosition = MapLayout.Instance.GetWaypoint(m_nextWaypointIndex);
             var vectorToTarget = targetPosition - transform.position;
 
             var distance = distanceLeft;
@@ -138,8 +134,8 @@ public class EnemyController : MonoBehaviour
 
     public float Progress()
     {
-        var waypointA = m_mapLayout.GetWaypoint(m_nextWaypointIndex - 1);
-        var waypointB = m_mapLayout.GetWaypoint(m_nextWaypointIndex);
+        var waypointA = m_data.CanFly ? MapLayout.Instance.GetWaypoint(0) : MapLayout.Instance.GetWaypoint(m_nextWaypointIndex - 1);
+        var waypointB = MapLayout.Instance.GetWaypoint(m_nextWaypointIndex);
 
         return m_nextWaypointIndex + transform.position.InverseLerp(waypointA, waypointB);
     }

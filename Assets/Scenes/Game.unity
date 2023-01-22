@@ -4195,7 +4195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db3820349d93ff49b945a2ccc7aee1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mapLayout: {fileID: 66979127}
 --- !u!4 &937862263
 Transform:
   m_ObjectHideFlags: 0
@@ -4525,7 +4524,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1420, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1137617299
 MonoBehaviour:

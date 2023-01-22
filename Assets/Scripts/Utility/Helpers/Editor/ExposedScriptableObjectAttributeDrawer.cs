@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEditor;
 
 /// <summary>
-/// Draws a dropdown for every scriptableObject property.
+/// Draws a dropdown for a scriptableObject property.
 /// This is useful for the controller-object pair, because you can edit the data from the prefab view.
 /// </summary>
-[CustomPropertyDrawer(typeof(ScriptableObject), true)]
-public class ScriptableObjectDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(ExposedScriptableObjectAttribute), true)]
+public class ExposedScriptableObjectAttributeDrawer : PropertyDrawer
 {
     // Cached scriptable object editor
     private Editor m_editor = null;

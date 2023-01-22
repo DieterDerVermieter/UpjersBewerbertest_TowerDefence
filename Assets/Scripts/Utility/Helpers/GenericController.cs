@@ -6,5 +6,5 @@ using UnityEngine;
 /// <typeparam name="TData">The type of the data object</typeparam>
 public abstract class GenericController<TData> : MonoBehaviour
 {
-    public TData Data;
+    [ExposedScriptableObject] public TData Data;
 }
