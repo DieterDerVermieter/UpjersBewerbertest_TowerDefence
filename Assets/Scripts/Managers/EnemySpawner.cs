@@ -101,10 +101,10 @@ public class EnemySpawner : Singleton<EnemySpawner>
     /// <param name="identifier">The identifier of the enemy</param>
     public void SpawnEnemy(EnemyData data, Vector3 position, int nextWaypoint, int identifier)
     {
-        var enemy = Instantiate(data.Prefab, transform);
+        var enemy = Instantiate(data.ControllerPrefab, transform);
 
         enemy.transform.position = position;
-        enemy.Setup(data, nextWaypoint, identifier);
+        enemy.Setup(nextWaypoint, identifier);
     }
 
 

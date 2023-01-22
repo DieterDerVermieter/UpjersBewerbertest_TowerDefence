@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class EnemyData : ScriptableObject
+public class EnemyData : GenericData<EnemyController>
 {
+    [Header("General Settings")]
     public string DisplayName = "Cool Enemy";
-    public EnemyController Prefab;
 
     [Header("Player")]
     public int LeakDamage = 1;
@@ -21,5 +21,6 @@ public class EnemyData : ScriptableObject
     public GameObject HitEffectPrefab;
     public GameObject DeathEffectPrefab;
 
+    [Header("Child")]
     public EnemyData Child;
 }

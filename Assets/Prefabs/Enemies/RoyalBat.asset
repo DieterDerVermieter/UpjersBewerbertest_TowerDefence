@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b3f802b677da54180f129f647d0cf8, type: 3}
   m_Name: RoyalBat
   m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 2859454996291436784, guid: eebb05317934c6541bcc910ee87a4b54, type: 3}
   DisplayName: Royal Bat
-  Prefab: {fileID: 2859454996291436784, guid: eebb05317934c6541bcc910ee87a4b54, type: 3}
   LeakDamage: 3
   CashReward: 1
   MovementSpeed: 4.8

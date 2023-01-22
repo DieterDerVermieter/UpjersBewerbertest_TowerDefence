@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b3f802b677da54180f129f647d0cf8, type: 3}
   m_Name: SciFiRobot
   m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 2859454996291436784, guid: 96683bdf3e9561248acbb52a896ea859, type: 3}
   DisplayName: Sci Fi Robot
-  Prefab: {fileID: 2859454996291436784, guid: 96683bdf3e9561248acbb52a896ea859, type: 3}
   LeakDamage: 4
   CashReward: 1
   MovementSpeed: 4.8
