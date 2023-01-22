@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BuildingShopItemController : MonoBehaviour
+public class TowerShopItemController : MonoBehaviour
 {
     [SerializeField] private Image m_iconImage;
     [SerializeField] private TMP_Text m_priceText;

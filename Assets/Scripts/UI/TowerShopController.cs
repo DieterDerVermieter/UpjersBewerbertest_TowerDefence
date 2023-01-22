@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class BuildingShopController : MonoBehaviour, IPointerExitHandler
+public class TowerShopController : MonoBehaviour, IPointerExitHandler
 {
     public UnityEvent<PointerEventData, TowerData> OnBuildingDragged;
 
@@ -14,7 +14,7 @@ public class BuildingShopController : MonoBehaviour, IPointerExitHandler
         if (eventData.selectedObject == null)
             return;
 
-        if (!eventData.selectedObject.TryGetComponent<BuildingShopItemController>(out var shopItem))
+        if (!eventData.selectedObject.TryGetComponent<TowerShopItemController>(out var shopItem))
             return;
 
         eventData.selectedObject = null;

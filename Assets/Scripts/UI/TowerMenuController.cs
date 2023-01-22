@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
-public class TowerInfoController : MonoBehaviour
+public class TowerMenuController : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_nameText;
     [SerializeField] private TMP_Dropdown m_targetModeDropdown;

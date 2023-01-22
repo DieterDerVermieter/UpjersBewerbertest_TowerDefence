@@ -9,10 +9,10 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     [SerializeField] private string m_buildingsResourcePath;
 
     [SerializeField] private MapLayout m_map;
-    [SerializeField] private TowerInfoController m_buildingInfoController;
+    [SerializeField] private TowerMenuController m_buildingInfoController;
 
     [SerializeField] private Transform m_shopItemContainer;
-    [SerializeField] private BuildingShopItemController m_shopItemPrefab;
+    [SerializeField] private TowerShopItemController m_shopItemPrefab;
 
     [SerializeField] private Color m_positionFreeColor;
     [SerializeField] private Color m_positionBlockedColor;

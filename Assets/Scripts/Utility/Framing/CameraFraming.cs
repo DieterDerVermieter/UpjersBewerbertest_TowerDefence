@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class CameraSizeController : MonoBehaviour
+public class CameraFraming : MonoBehaviour
 {
     [SerializeField] private RectTransform m_captureTransform;
     [SerializeField] private Rect m_targetArea = new Rect(0, 0, 16, 9);

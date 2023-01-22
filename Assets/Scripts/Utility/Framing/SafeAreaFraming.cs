@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class SafeAreaAdjustment : MonoBehaviour
+public class SafeAreaFraming : MonoBehaviour
 {
     [SerializeField] private bool m_conformX = true;
     [SerializeField] private bool m_conformY = true;
