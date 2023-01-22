@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Frames a rectTransform, so that is is fully inside the safeRect provided by unity
+/// </summary>
 [ExecuteInEditMode]
 public class SafeAreaFraming : MonoBehaviour
 {
@@ -13,6 +16,7 @@ public class SafeAreaFraming : MonoBehaviour
 
     private RectTransform m_panel;
 
+    // Last updated values
     private Rect m_lastSafeArea;
     private Vector2Int m_lastScreenSize;
     private ScreenOrientation m_lastOrientation = ScreenOrientation.AutoRotation;
@@ -29,8 +33,9 @@ public class SafeAreaFraming : MonoBehaviour
 
     private void Refresh()
     {
-        var safeArea = GetSafeArea();
+        var safeArea = Screen.safeArea;
 
+        // Only update the area, if values have changed
         if (safeArea != m_lastSafeArea
             || Screen.width != m_lastScreenSize.x
             || Screen.height != m_lastScreenSize.y
@@ -45,13 +50,6 @@ public class SafeAreaFraming : MonoBehaviour
 
             ApplySafeArea(safeArea);
         }
-    }
-
-
-    private Rect GetSafeArea()
-    {
-        Rect safeArea = Screen.safeArea;
-        return safeArea;
     }
 
 

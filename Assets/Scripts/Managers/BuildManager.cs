@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class BuildManager : Singleton<BuildManager>, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [SerializeField] private Camera m_mainCamera;
-    [SerializeField] private string m_buildingsResourcePath;
 
-    [SerializeField] private MapLayout m_map;
+    [SerializeField] private List<TowerData> m_towers;
+
     [SerializeField] private TowerMenuController m_buildingInfoController;
 
     [SerializeField] private Transform m_shopItemContainer;
@@ -26,12 +26,10 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private void Start()
     {
-        var buildings = Resources.LoadAll<TowerData>(m_buildingsResourcePath);
-
-        foreach (var buildingData in buildings)
+        foreach (var towerData in m_towers)
         {
             var shopItem = Instantiate(m_shopItemPrefab, m_shopItemContainer);
-            shopItem.Setup(buildingData);
+            shopItem.Setup(towerData);
         }
 
         m_buildingInfoController.Setup(this);
@@ -44,14 +42,14 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         SelectBuilding(null);
 
         m_draggedBuildingData = buildingData;
-        m_draggedBuilding = Instantiate(buildingData.Prefab, transform);
+        m_draggedBuilding = Instantiate(buildingData.ControllerPrefab, transform);
 
         m_draggedBuilding.Setup(this, m_draggedBuildingData);
         m_draggedBuilding.SetPreviewState(true);
 
         eventData.pointerDrag = gameObject;
 
-        Debug.Log($"Start build building {buildingData.DisplayName}");
+        Debug.Log($"Start build tower {buildingData.DisplayName}");
     }
 
 
@@ -72,7 +70,7 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             m_buildingInfoController.SetTargetBuilding(building);
             m_buildingInfoController.gameObject.SetActive(true);
 
-            Debug.Log($"Select building {m_selectedBuilding.Data.DisplayName}");
+            Debug.Log($"Select building {m_selectedBuilding.MyData.DisplayName}");
         }
     }
 
@@ -82,13 +80,13 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (m_selectedBuilding == null)
             return;
 
-        var sellReward = (int)(m_selectedBuilding.Data.Price * 0.5f);
+        var sellReward = (int)(m_selectedBuilding.MyData.Price * 0.5f);
         GameManager.Instance.RewardCash(sellReward);
 
-        var gridPosition = m_map.WorldToGridPosition(m_selectedBuilding.transform.position);
+        var gridPosition = MapLayout.Instance.WorldToGridPosition(m_selectedBuilding.transform.position);
         gridPosition -= Vector2Int.one * m_selectedBuilding.GridSize / 2;
 
-        m_map.SetGridArea(gridPosition.x, gridPosition.y, m_selectedBuilding.GridSize, 0);
+        MapLayout.Instance.SetGridArea(gridPosition.x, gridPosition.y, m_selectedBuilding.GridSize, 0);
 
         Destroy(m_selectedBuilding.gameObject);
         SelectBuilding(null);
@@ -109,16 +107,16 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         float evenSizeOffset = m_draggedBuilding.GridSize % 2 == 0 ? 1 : 0;
         worldPosition += new Vector3(1, 1) * MapLayout.CELL_SIZE * 0.5f * evenSizeOffset;
 
-        var gridPosition = m_map.WorldToGridPosition(worldPosition);
+        var gridPosition = MapLayout.Instance.WorldToGridPosition(worldPosition);
 
-        worldPosition = m_map.GridToWorldPosition(gridPosition.x, gridPosition.y);
+        worldPosition = MapLayout.Instance.GridToWorldPosition(gridPosition.x, gridPosition.y);
         worldPosition -= new Vector3(1, 1) * MapLayout.CELL_SIZE * 0.5f * evenSizeOffset;
 
         m_draggedBuilding.transform.position = worldPosition;
 
         gridPosition -= Vector2Int.one * m_draggedBuilding.GridSize / 2;
 
-        var isAreaBlocked = m_map.IsGridAreaBlocked(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize);
+        var isAreaBlocked = MapLayout.Instance.IsGridAreaBlocked(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize);
         m_draggedBuilding.SetSizeIndicatorColor(isAreaBlocked ? m_positionBlockedColor : m_positionFreeColor);
     }
 
@@ -130,13 +128,13 @@ public class BuildManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         float evenSizeOffset = m_draggedBuilding.GridSize % 2 == 0 ? 1 : 0;
         worldPosition += new Vector3(1, 1) * MapLayout.CELL_SIZE * 0.5f * evenSizeOffset;
 
-        var gridPosition = m_map.WorldToGridPosition(worldPosition);
+        var gridPosition = MapLayout.Instance.WorldToGridPosition(worldPosition);
         gridPosition -= Vector2Int.one * m_draggedBuilding.GridSize / 2;
 
-        if (!m_map.IsGridAreaBlocked(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize)
+        if (!MapLayout.Instance.IsGridAreaBlocked(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize)
             && GameManager.Instance.UseCash(m_draggedBuildingData.Price))
         {
-            m_map.SetGridArea(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize, 1);
+            MapLayout.Instance.SetGridArea(gridPosition.x, gridPosition.y, m_draggedBuilding.GridSize, 1);
             m_draggedBuilding.SetPreviewState(false);
         }
         else

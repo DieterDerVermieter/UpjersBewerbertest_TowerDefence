@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe974c60442edbd4b84cef91285c35ad, type: 3}
   m_Name: GunTower
   m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 1593140798008447108, guid: 8d41ef229200aa641a992112059897cb, type: 3}
   DisplayName: Gun Tower
   Icon: {fileID: -894825544, guid: 6addc9e306f90b14b825ea70b3636fcf, type: 3}
-  Prefab: {fileID: 1593140798008447108, guid: 8d41ef229200aa641a992112059897cb, type: 3}
   Price: 250
   AttackSpeed: 0.7
   AttackSpread: 0

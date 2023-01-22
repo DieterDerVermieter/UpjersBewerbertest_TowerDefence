@@ -90,11 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3141e224d454f147a3ac0ac7ca37044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementSpeed: 5
-  m_hitRadius: 0.3
-  m_hitDamage: 2
-  m_maxPierce: 20
-  m_maxLifetime: 0.4
+  Data: {fileID: 11400000, guid: 6657d0ffba5b998498dac81868f1795c, type: 2}
 --- !u!1 &8815728629540762262
 GameObject:
   m_ObjectHideFlags: 0

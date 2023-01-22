@@ -1,86 +1,131 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class ProjectileController : MonoBehaviour
+public class ProjectileController : GenericController<ProjectileData>
 {
-    [SerializeField] private float m_movementSpeed = 5.0f;
+    /// <summary>
+    /// Comparer for <see cref="RaycastHit2D"/> that compares the distances.
+    /// </summary>
+    private class RaycastHitDistanceComparer : IComparer<RaycastHit2D>
+    {
+        public int Compare(RaycastHit2D x, RaycastHit2D y) => x.distance.CompareTo(y.distance);
+    }
 
-    [SerializeField] private float m_hitRadius = 0.1f;
-    [SerializeField] private float m_hitDamage = 10.0f;
 
-    [SerializeField] private int m_maxPierce = 1;
+    // Should the logic be active
+    private bool m_isActive;
 
-    [SerializeField] private float m_maxLifetime = 5.0f;
-
-
+    // Movement direction
     private Vector3 m_direction;
 
-    private int m_currentPierce;
+    // Tracking of lifetime and pierce
     private float m_currentLifetime;
+    private int m_currentPierce;
 
+    // Tracking of enemies hit
     private List<int> m_hitList = new List<int>();
 
-    private static RaycastHit2D[] m_raycastResults = new RaycastHit2D[100];
+
+    // Static array for raycasts
+    private static RaycastHit2D[] s_raycastResults = new RaycastHit2D[100];
+
+    // Comparer to sort raycastResults by distance
+    private static RaycastHitDistanceComparer s_raycastResultComparer = new RaycastHitDistanceComparer();
 
 
+    /// <summary>
+    /// Setup this Projectile.
+    /// </summary>
+    /// <param name="direction">Movement direction</param>
     public void Setup(Vector3 direction)
     {
+        m_isActive = true;
         m_direction = direction;
     }
 
 
     private void Update()
     {
+        // Only do logic, if projectile is active
+        if (!m_isActive)
+            return;
+
+        // Check, if the projectile is too old
         m_currentLifetime += Time.deltaTime;
-        if(m_currentLifetime >= m_maxLifetime)
-        {
-            Destroy(gameObject);
-        }
+        if (m_currentLifetime >= Data.MaxLifetime)
+            Die();
     }
 
 
     private void FixedUpdate()
     {
-        var distance = m_movementSpeed * Time.fixedDeltaTime;
-        EnemyController hitTarget = null;
+        // Only do logic, if projectile is active
+        if (!m_isActive)
+            return;
 
-        for (int i = 0; i < Physics2D.CircleCastNonAlloc(transform.position, m_hitRadius, m_direction, m_raycastResults); i++)
+        // Distance the projectile wants to travel this tick
+        var distance = Data.MovementSpeed * Time.fixedDeltaTime;
+        var hitPierceCap = false;
+
+        // Raycast and sort results
+        var resultCount = Physics2D.CircleCastNonAlloc(transform.position, Data.HitRadius, m_direction, s_raycastResults, distance);
+        Array.Sort(s_raycastResults, 0, resultCount, s_raycastResultComparer);
+
+        // Check all raycast results for enemies
+        for (int i = 0; i < resultCount; i++)
         {
-            var result = m_raycastResults[i];
-            if(result.collider.TryGetComponent<EnemyController>(out var enemy))
-            {
-                if (m_hitList.Contains(enemy.Identifier))
-                    continue;
+            var result = s_raycastResults[i];
 
-                if (result.distance < distance)
-                {
-                    hitTarget = enemy;
-                    distance = result.distance;
-                }
+            // Skip result, if it isn't an Enemy
+            if (!result.collider.TryGetComponent<EnemyController>(out var enemy))
+                continue;
+
+            // Skip Enemy, if we hit it before
+            if (m_hitList.Contains(enemy.Identifier))
+                continue;
+
+            // Hit Enemy
+            enemy.TakeDamage(Data.HitDamage);
+
+            // Track Enemy and increase Pierce
+            m_hitList.Add(enemy.Identifier);
+            m_currentPierce++;
+
+            // Exit early, if we hit the maximum pierce
+            if (m_currentPierce >= Data.MaxPiercing)
+            {
+                distance = result.distance;
+                hitPierceCap = true;
+                break;
             }
         }
 
+        // Move
         transform.position += m_direction * distance;
 
-        if(hitTarget != null)
-        {
-            hitTarget.TakeDamage(m_hitDamage);
-
-            m_hitList.Add(hitTarget.Identifier);
-            m_currentPierce++;
-
-            if(m_currentPierce >= m_maxPierce)
-                Destroy(gameObject);
-        }
+        // Die, if we hit our pierce cap
+        if (hitPierceCap)
+            Die();
     }
 
 
+    /// <summary>
+    /// Destroys the GameObject.
+    /// </summary>
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         var hitRadiusColor = Color.green;
 
         Gizmos.color = hitRadiusColor;
-        Gizmos.DrawWireSphere(transform.position, m_hitRadius);
+        Gizmos.DrawWireSphere(transform.position, Data.HitRadius);
     }
+#endif
 }

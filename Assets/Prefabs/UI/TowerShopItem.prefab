@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 142754047300782418}
   - component: {fileID: 4352757276803231308}
   m_Layer: 5
-  m_Name: BuildingShopItem
+  m_Name: TowerShopItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,7 +300,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6920967649194860771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e13a8ae7f2e195145b9127f1c33bd96f, type: 3}
+  m_Script: {fileID: 11500000, guid: c05c73a9a35e49544889ccd9b82b09e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_iconImage: {fileID: 6920967648996345620}

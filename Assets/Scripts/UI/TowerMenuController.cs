@@ -27,7 +27,7 @@ public class TowerMenuController : MonoBehaviour
     {
         m_targetBuilding = building;
 
-        m_nameText.text = m_targetBuilding.Data.DisplayName;
+        m_nameText.text = m_targetBuilding.MyData.DisplayName;
     }
 
 

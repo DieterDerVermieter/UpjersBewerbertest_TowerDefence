@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c5bbcda29871854d9d4bad4899f3596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 952faacaf2c9ef444a6ba7b13e0c3b08, type: 2}
   m_sizeIndicator: {fileID: 1042944358167054774}
   m_rangeIndicator: {fileID: 300201330835104388}
   m_headContainer: {fileID: 6030332588056391270}

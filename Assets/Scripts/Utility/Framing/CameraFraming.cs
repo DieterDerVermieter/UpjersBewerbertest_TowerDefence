@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Makes sure, that a target area is contained within the area of a specified rectTransform.
+/// </summary>
 [ExecuteInEditMode]
 public class CameraFraming : MonoBehaviour
 {
@@ -13,6 +16,10 @@ public class CameraFraming : MonoBehaviour
 
     private Camera m_camera;
 
+    // World corners of the rectTransform
+    private Vector3[] m_worldCorners = new Vector3[4];
+
+    // Last updated rects
     private Rect m_lastCaptureArea;
     private Rect m_lastTargetArea;
 
@@ -33,15 +40,17 @@ public class CameraFraming : MonoBehaviour
     {
         var captureArea = new Rect();
 
-        var worldCorners = new Vector3[4];
-        m_captureTransform.GetWorldCorners(worldCorners);
+        m_captureTransform.GetWorldCorners(m_worldCorners);
 
-        captureArea.min = worldCorners[0];
-        captureArea.max = worldCorners[2];
+        // Create the capture rect based on the corners of the rectTransform
+        captureArea.min = m_worldCorners[0];
+        captureArea.max = m_worldCorners[2];
 
+        // Sometimes the capture area was zero, so the framing didn't work
         if (captureArea.size == Vector2.zero)
             return;
 
+        // Only change the framing, if the rects have changed
         if (captureArea != m_lastCaptureArea
             || m_targetArea != m_lastTargetArea)
         {
@@ -55,17 +64,21 @@ public class CameraFraming : MonoBehaviour
 
     private void ApplyCaptureArea(Rect captureArea)
     {
-        // var width = m_captureArea.width * 0.5f * (Screen.width / safeArea.width) * (Screen.height / Screen.width);
+        // Calculate the minimum width and height of the camera
         var width = m_targetArea.width * 0.5f * (Screen.height / captureArea.width);
         var height = m_targetArea.height * 0.5f * (Screen.height / captureArea.height);
 
+        // Set the camera size to the biggest dimension that needs to be captured
         m_camera.orthographicSize = Mathf.Max(width, height);
 
+        // Don't change the z position
         var positionZ = transform.position.z;
 
+        // Reset the camera to the origin and calculate the center of the capture area
         transform.position = Vector3.zero;
         var worldCenter = m_camera.ScreenToWorldPoint(captureArea.center);
 
+        // Calculate the camera position on the xy plane
         var positionXY = m_targetArea.position - new Vector2(worldCenter.x, worldCenter.y);
 
         transform.position = new Vector3(positionXY.x, positionXY.y, positionZ);
@@ -77,6 +90,7 @@ public class CameraFraming : MonoBehaviour
     }
 
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         var rectColor = Color.blue;
@@ -88,4 +102,5 @@ public class CameraFraming : MonoBehaviour
         Gizmos.color = rectColor;
         Gizmos.DrawCube(m_targetArea.position, m_targetArea.size);
     }
+#endif
 }

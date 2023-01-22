@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe974c60442edbd4b84cef91285c35ad, type: 3}
   m_Name: FlameTower
   m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 1593140798008447108, guid: 4838f88186eb3ec47b92febd7e10ed2e, type: 3}
   DisplayName: Flame Tower
   Icon: {fileID: 706644614, guid: 7ab68fc9718f4e147a7465781be4ad58, type: 3}
-  Prefab: {fileID: 1593140798008447108, guid: 4838f88186eb3ec47b92febd7e10ed2e, type: 3}
   Price: 600
   AttackSpeed: 10
   AttackSpread: 0.2

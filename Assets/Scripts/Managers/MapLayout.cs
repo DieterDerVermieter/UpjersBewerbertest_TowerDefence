@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapLayout : MonoBehaviour
+public class MapLayout : Singleton<MapLayout>
 {
     [Header("Path")]
     [SerializeField] private Transform m_waypointContainer;

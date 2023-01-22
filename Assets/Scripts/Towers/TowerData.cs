@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class TowerData : ScriptableObject
+public class TowerData : GenericData<TowerController>
 {
+    [Header("General Settings")]
     public string DisplayName = "Cool Building";
     public Sprite Icon;
 
-    public TowerController Prefab;
-
+    [Header("Shop")]
     public int Price = 100;
 
     [Header("Attack")]

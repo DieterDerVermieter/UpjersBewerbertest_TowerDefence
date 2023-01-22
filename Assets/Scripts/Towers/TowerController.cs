@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TowerController : MonoBehaviour, IPointerClickHandler
+public class TowerController : GenericController<TowerData>, IPointerClickHandler
 {
     public enum TargetMode
     {
@@ -39,7 +39,7 @@ public class TowerController : MonoBehaviour, IPointerClickHandler
     private static Collider2D[] m_overlappingColliders = new Collider2D[100];
 
 
-    public TowerData Data => m_data;
+    public TowerData MyData => m_data;
 
     public int GridSize => m_gridSize;
 
