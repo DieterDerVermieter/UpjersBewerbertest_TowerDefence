@@ -46,7 +46,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
     // Queued waves and fields to track wave spanwing progress
     private Queue<WaveData> m_waveQueue = new Queue<WaveData>();
     private float m_waveTimer;
-    private int m_waveIndex;
+    private int m_batchIndex;
 
     // This gets used as the enemies identifier
     private int m_spawnIndex;
@@ -56,11 +56,6 @@ public class EnemySpawner : Singleton<EnemySpawner>
     /// Are there active waves or batches being spawned?
     /// </summary>
     public bool IsSpawning { get; private set; }
-
-    /// <summary>
-    /// The spawn progress of the active wave.
-    /// </summary>
-    public float SpawnProgress { get; private set; }
 
 
     /// <summary>
@@ -139,22 +134,22 @@ public class EnemySpawner : Singleton<EnemySpawner>
             return;
 
         // Spawn the next batch
-        SpawnBatch(currentWave.Batches[m_waveIndex].Batch);
-        m_waveIndex++;
+        SpawnBatch(currentWave.Batches[m_batchIndex].Batch);
+        m_batchIndex++;
 
         // If it was the last batch, dequeue wave
-        if (m_waveIndex >= currentWave.Batches.Count)
+        if (m_batchIndex >= currentWave.Batches.Count)
         {
             m_waveQueue.Dequeue();
 
             m_waveTimer = 0;
-            m_waveIndex = 0;
+            m_batchIndex = 0;
 
             return;
         }
 
         // Increase our wave timer by the delay of the next batch
-        m_waveTimer += currentWave.Batches[m_waveIndex].Delay;
+        m_waveTimer += currentWave.Batches[m_batchIndex].Delay;
     }
 
 

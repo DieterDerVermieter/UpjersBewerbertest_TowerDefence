@@ -10,31 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4e2fd0083d4ac64e8c9db03ff60183f, type: 3}
-  m_Name: Wave14
+  m_Name: Wave15
   m_EditorClassIdentifier: 
   Batches:
   - Batch:
       Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
-      Count: 100
+      Count: 50
       Delay: 1
     Delay: 0
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 6fead1b92358fb2409e676e83bea11d8, type: 2}
+      Count: 15
+      Delay: 1
+    Delay: 50
   - Batch:
       Enemy: {fileID: 11400000, guid: d0a00e0333f1f4d49bab745778c64516, type: 2}
-      Count: 23
+      Count: 10
       Delay: 1
-    Delay: 100
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 8e2c8e264c7df3347a98f44b9a2e53fb, type: 2}
-      Count: 20
-      Delay: 1
-    Delay: 0
+    Delay: 15
   - Batch:
       Enemy: {fileID: 11400000, guid: 2b52240b11bd69547a4f71744aabba60, type: 2}
-      Count: 4
+      Count: 9
       Delay: 1
-    Delay: 23
+    Delay: 10
   - Batch:
-      Enemy: {fileID: 11400000, guid: e484c53ab78650a409c693ce2daa24fb, type: 2}
-      Count: 4
+      Enemy: {fileID: 11400000, guid: 4491c54abbbc2c64681509ddd9876e27, type: 2}
+      Count: 10
       Delay: 1
     Delay: 0
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 4491c54abbbc2c64681509ddd9876e27, type: 2}
+      Count: 5
+      Delay: 0.5
+    Delay: 10

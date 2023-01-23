@@ -53,6 +53,13 @@ public class EnemyController : GenericController<EnemyData>
     }
 
 
+    private void OnDestroy()
+    {
+        // If the object gets destroyed through some outside force, remove it from the list
+        ActiveEnemies.Remove(this);
+    }
+
+
     private void Start()
     {
         // If we can fly, skip all waypoints and head towards last one
