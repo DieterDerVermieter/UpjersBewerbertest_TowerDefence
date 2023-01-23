@@ -34,5 +34,8 @@ public class TowerShopController : MonoBehaviour, IPointerExitHandler
 
         // We also need to pass the pointerDrag to the towerManager, so it gets pointerDrag callbacks
         eventData.pointerDrag = TowerManager.Instance.gameObject;
+
+        // Reset selected object, so we can't retrigger this during the same drag
+        eventData.selectedObject = null;
     }
 }
