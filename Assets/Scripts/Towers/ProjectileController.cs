@@ -13,6 +13,9 @@ public class ProjectileController : GenericController<ProjectileData>
     }
 
 
+    [SerializeField] private LayerMask m_enemyMask;
+
+
     // Should the logic be active
     private bool m_isActive;
 
@@ -69,7 +72,7 @@ public class ProjectileController : GenericController<ProjectileData>
         var hitPierceCap = false;
 
         // Raycast and sort results
-        var resultCount = Physics2D.CircleCastNonAlloc(transform.position, Data.HitRadius, m_direction, s_raycastResults, distance);
+        var resultCount = Physics2D.CircleCastNonAlloc(transform.position, Data.HitRadius, m_direction, s_raycastResults, distance, m_enemyMask);
         Array.Sort(s_raycastResults, 0, resultCount, s_raycastResultComparer);
 
         // Check all raycast results for enemies

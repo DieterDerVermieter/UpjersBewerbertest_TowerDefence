@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 6657d0ffba5b998498dac81868f1795c, type: 2}
+  m_enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &8815728629540762262
 GameObject:
   m_ObjectHideFlags: 0

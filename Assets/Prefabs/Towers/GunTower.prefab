@@ -249,10 +249,10 @@ MonoBehaviour:
   m_sizeIndicator: {fileID: 1042944358167054774}
   m_rangeIndicator: {fileID: 300201330835104388}
   m_headContainer: {fileID: 6030332588056391270}
-  m_bulletSpawnPoint: {fileID: 587417027}
-  m_attackRadius: 2.4
-  m_gridSize: 2
-  m_targetMode: 0
+  m_projectileSpawnPoint: {fileID: 587417027}
+  m_enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!65 &3568172083581777978
 BoxCollider:
   m_ObjectHideFlags: 0

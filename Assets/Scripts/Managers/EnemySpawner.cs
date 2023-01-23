@@ -57,6 +57,11 @@ public class EnemySpawner : Singleton<EnemySpawner>
     /// </summary>
     public bool IsSpawning { get; private set; }
 
+    /// <summary>
+    /// The spawn progress of the active wave.
+    /// </summary>
+    public float SpawnProgress { get; private set; }
+
 
     /// <summary>
     /// Eneque a new wave to be spawned. Only spawns on wave at a time.

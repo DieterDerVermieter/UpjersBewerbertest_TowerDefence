@@ -16,6 +16,9 @@ MonoBehaviour:
   DisplayName: Flame Tower
   Icon: {fileID: 706644614, guid: 7ab68fc9718f4e147a7465781be4ad58, type: 3}
   Price: 600
+  GridSize: 3
+  AttackRadius: 2
+  TargetMode: 2
   AttackSpeed: 10
   AttackSpread: 0.2
   ProjectilePrefab: {fileID: 8368848229916934228, guid: da13128fd63ca4e4dbf5d3938525d7a3, type: 3}

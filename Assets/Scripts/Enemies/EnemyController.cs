@@ -25,7 +25,9 @@ public class EnemyController : GenericController<EnemyData>
     /// </summary>
     public int Identifier => m_identifier;
 
-    public float HitRadius => m_circleCollider.radius;
+    /// <summary>
+    /// The world position attacks should be aimed at
+    /// </summary>
     public Vector3 HitCenter => transform.position + (Vector3)m_circleCollider.offset;
 
 
@@ -168,7 +170,7 @@ public class EnemyController : GenericController<EnemyData>
         m_isActive = false;
 
         // Deal leak damage to the player
-        GameManager.Instance.LeakLifes(Data.LeakDamage);
+        GameManager.Instance.LeakLives(Data.LeakDamage);
 
         Destroy(gameObject);
     }

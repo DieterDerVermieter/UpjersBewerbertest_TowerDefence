@@ -9,68 +9,39 @@ public class MapLayout : Singleton<MapLayout>
     [SerializeField] private Transform m_waypointContainer;
 
     [Header("Grid")]
-    [SerializeField] private Vector2Int m_newGridSize;
-    [SerializeField] private Vector3 m_newGridOffset;
+    [SerializeField] private Vector2Int m_gridAreaSize;
+    [SerializeField] private Vector3 m_gridAreaOffset;
 
     [SerializeField] private Collider2D m_pathCollider;
 
 
+    // Generated waypoints
     [HideInInspector][SerializeField] private Vector3[] m_waypoints;
 
-    [HideInInspector][SerializeField] private int[] m_grid;
-
+    // Generated grid
+    [HideInInspector][SerializeField] private bool[] m_grid;
     [HideInInspector][SerializeField] private Vector2Int m_gridSize;
     [HideInInspector][SerializeField] private Vector3 m_gridOffset;
 
 
+    // Size of the grid cells
     public const int CELLS_PER_TILE = 2;
     public const float CELL_SIZE = 1.0f / CELLS_PER_TILE;
 
 
+    #region Path
     public int GetWaypointCount() => m_waypoints.Length;
+
     public Vector3 GetWaypoint(int index) => m_waypoints[index];
 
-    public Vector2Int GetGridSize() => m_gridSize;
 
-    public int GetGridCell(int x, int y) => m_grid[x + y * m_gridSize.x];
-
-    public Vector3 GridToWorldPosition(int x, int y) => new Vector3(x + 0.5f, y + 0.5f) * CELL_SIZE + m_gridOffset;
-    public Vector2Int WorldToGridPosition(Vector3 worldPosition) => Vector2Int.FloorToInt((worldPosition - m_gridOffset) * CELLS_PER_TILE);
-
-    public void SetGridCell(int x, int y, int value) => m_grid[x + y * m_gridSize.x] = value;
-
-    public bool IsGridAreaBlocked(int x, int y, int size)
-    {
-        for (int oX = 0; oX < size; oX++)
-        {
-            for (int oY = 0; oY < size; oY++)
-            {
-                var cell = GetGridCell(x + oX, y + oY);
-                if (cell > 0)
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void SetGridArea(int x, int y, int size, int value)
-    {
-        for (int oX = 0; oX < size; oX++)
-        {
-            for (int oY = 0; oY < size; oY++)
-            {
-                SetGridCell(x + oX, y + oY, value);
-            }
-        }
-    }
-
-
+#if UNITY_EDITOR
     [MyBox.ButtonMethod]
     private void GeneratePath()
     {
         m_waypoints = new Vector3[m_waypointContainer.childCount];
 
+        // Generate the path based on the waypoints in the specified container
         for (int i = 0; i < m_waypointContainer.childCount; i++)
         {
             m_waypoints[i] = m_waypointContainer.GetChild(i).position;
@@ -78,35 +49,117 @@ public class MapLayout : Singleton<MapLayout>
 
         Debug.Log($"Generated Path containing {GetWaypointCount()} Waypoints.");
     }
+#endif
+    #endregion
 
 
+    #region Grid
+    private bool GetGridValue(Vector2Int gridPosition)
+    {
+        // Default all positions outside the grid to occupied
+        if (gridPosition.x < 0 || gridPosition.x >= m_gridSize.x || gridPosition.y < 0 || gridPosition.y >= m_gridSize.y)
+            return true;
+
+        return m_grid[gridPosition.x + gridPosition.y * m_gridSize.x];
+    }
+
+
+    private void SetGridValue(Vector2Int gridPosition, bool isOccupied)
+    {
+        // Constraint position to grid
+        gridPosition = Vector2Int.Max(Vector2Int.zero, Vector2Int.Min(m_gridSize, gridPosition));
+
+        m_grid[gridPosition.x + gridPosition.y * m_gridSize.x] = isOccupied;
+    }
+
+
+
+    /// <summary>
+    /// Is the provided area on the grid unoccupied?
+    /// </summary>
+    /// <param name="gridPosition">The corner position of the area</param>
+    /// <param name="areaSize">The size of the square area</param>
+    /// <returns>The occupancy state of the area</returns>
+    public bool IsGridAreaFree(Vector2Int gridPosition, int areaSize)
+    {
+        for (int x = 0; x < areaSize; x++)
+        {
+            for (int y = 0; y < areaSize; y++)
+            {
+                var position = gridPosition + new Vector2Int(x, y);
+                if (GetGridValue(position))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Sets a provided area of the grid.
+    /// </summary>
+    /// <param name="gridPosition">The corner position of the area</param>
+    /// <param name="areaSize">The size of the square area</param>
+    /// <param name="isOccupied">The occupancy state of the area</param>
+    public void SetGridArea(Vector2Int gridPosition, int areaSize, bool isOccupied)
+    {
+        for (int x = 0; x < areaSize; x++)
+        {
+            for (int y = 0; y < areaSize; y++)
+            {
+                var position = gridPosition + new Vector2Int(x, y);
+                SetGridValue(position, isOccupied);
+            }
+        }
+    }
+
+
+    public Vector3 GridToWorldPosition(Vector2Int gridPosition)
+    {
+        return new Vector3(gridPosition.x + 0.5f, gridPosition.y + 0.5f) * CELL_SIZE + m_gridOffset;
+    }
+
+    public Vector2Int WorldToGridPosition(Vector3 worldPosition)
+    {
+        return Vector2Int.FloorToInt((worldPosition - m_gridOffset) * CELLS_PER_TILE);
+    }
+
+
+#if UNITY_EDITOR
     [MyBox.ButtonMethod]
     private void GenerateGrid()
     {
-        m_gridSize = m_newGridSize * CELLS_PER_TILE;
+        // Save the new size and offset values
+        m_gridSize = m_gridAreaSize * CELLS_PER_TILE;
+        m_gridOffset = m_gridAreaOffset;
 
-        m_gridOffset = m_newGridOffset;
+        // Generate a new grid array
+        m_grid = new bool[m_gridSize.x * m_gridSize.y];
 
-        m_grid = new int[m_gridSize.x * m_gridSize.y];
-
-        for (int x = 0; x < GetGridSize().x; x++)
+        // Go through all grid positions and check the path collider for overlaps
+        for (int x = 0; x < m_gridSize.x; x++)
         {
-            for (int y = 0; y < GetGridSize().y; y++)
+            for (int y = 0; y < m_gridSize.y; y++)
             {
-                var cellPosition = GridToWorldPosition(x, y);
+                var gridPosition = new Vector2Int(x, y);
+                var worldPosition = GridToWorldPosition(gridPosition);
 
-                if (m_pathCollider.OverlapPoint(cellPosition))
-                    SetGridCell(x, y, 1);
+                // If the path collider overlaps this grid position, mark it as occupied
+                if (m_pathCollider.OverlapPoint(worldPosition))
+                    SetGridValue(gridPosition, true);
             }
         }
 
         Debug.Log($"Generated Grid containing {m_grid.Length} Cells.");
     }
+#endif
+    #endregion
 
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if(m_waypoints != null)
+        if (m_waypoints != null)
         {
             var pathColor = Color.yellow;
 
@@ -117,19 +170,20 @@ public class MapLayout : Singleton<MapLayout>
             }
         }
 
-        if(m_grid != null)
+        if (m_grid != null)
         {
-            for (int x = 0; x < GetGridSize().x; x++)
+            for (int x = 0; x < m_gridSize.x; x++)
             {
-                for (int y = 0; y < GetGridSize().y; y++)
+                for (int y = 0; y < m_gridSize.y; y++)
                 {
-                    var cell = GetGridCell(x, y);
+                    var gridPosition = new Vector2Int(x, y);
+                    var gridValue = GetGridValue(gridPosition);
 
                     var gridColor = Color.blue;
-                    if (cell > 0)
+                    if (gridValue)
                         gridColor = Color.red;
 
-                    var cellPosition = GridToWorldPosition(x, y);
+                    var worldPosition = GridToWorldPosition(gridPosition);
 
                     // gridColor.a = 1.0f;
                     // Gizmos.color = gridColor;
@@ -137,9 +191,10 @@ public class MapLayout : Singleton<MapLayout>
 
                     gridColor.a = 0.3f;
                     Gizmos.color = gridColor;
-                    Gizmos.DrawCube(cellPosition, 0.7f * Vector3.one * CELL_SIZE);
+                    Gizmos.DrawCube(worldPosition, 0.7f * Vector3.one * CELL_SIZE);
                 }
             }
         }
     }
+#endif
 }

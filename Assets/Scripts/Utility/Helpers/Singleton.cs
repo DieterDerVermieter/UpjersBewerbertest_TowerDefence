@@ -9,6 +9,9 @@ using UnityEngine;
 /// <typeparam name="T">Type of the singleton class</typeparam>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    /// <summary>
+    /// The only active instance of this class.
+    /// </summary>
     public static T Instance => m_instance;
     static T m_instance;
 

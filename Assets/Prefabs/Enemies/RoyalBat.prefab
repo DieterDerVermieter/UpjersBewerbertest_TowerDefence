@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2859454996291436786}
   - component: {fileID: 2859454996291436784}
   - component: {fileID: 1367407095812760856}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RoyalBat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

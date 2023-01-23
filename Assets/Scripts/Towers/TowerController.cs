@@ -13,64 +13,35 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
         Strong
     }
 
-    [Header("Indicators")]
+    [Header("Preview")]
     [SerializeField] private SpriteRenderer m_sizeIndicator;
     [SerializeField] private Transform m_rangeIndicator;
 
-    [Header("Active")]
+    [Header("Attack")]
     [SerializeField] private Transform m_headContainer;
-    [SerializeField] private Transform m_bulletSpawnPoint;
-
-    [SerializeField] private float m_attackRadius = 5.0f;
-    [SerializeField] private int m_gridSize = 2;
-
-    [SerializeField] private TargetMode m_targetMode;
+    [SerializeField] private Transform m_projectileSpawnPoint;
 
 
-    private BuildManager m_buildManager;
-
-    private TowerData m_data;
-
+    // Flags for preview and selection
     private bool m_isPreview;
     private bool m_isSelected;
 
+    // Current attack cooldown
     private float m_attackTimer;
 
-    private static Collider2D[] m_overlappingColliders = new Collider2D[100];
 
-
-    public TowerData MyData => m_data;
-
-    public int GridSize => m_gridSize;
-
-
-    private void OnValidate()
+    private void Start()
     {
-        if(m_sizeIndicator != null)
-        {
-            m_sizeIndicator.transform.localScale = Vector3.one * m_gridSize * MapLayout.CELL_SIZE;
-        }
-
-        if (m_rangeIndicator != null)
-        {
-            m_rangeIndicator.transform.localScale = Vector3.one * m_attackRadius * 2;
-        }
+        // Setup our preview indicators
+        m_sizeIndicator.transform.localScale = Vector3.one * Data.GridSize * MapLayout.CELL_SIZE;
+        m_rangeIndicator.transform.localScale = Vector3.one * Data.AttackRadius * 2;
     }
 
 
-    public void Setup(BuildManager buildManager, TowerData data)
-    {
-        m_buildManager = buildManager;
-        m_data = data;
-    }
-
-
-    public void SetTargetMode(TargetMode mode)
-    {
-        m_targetMode = mode;
-    }
-
-
+    /// <summary>
+    /// Sets the current previewState and enables/disables the preview indicators accordingly.
+    /// </summary>
+    /// <param name="isPreview">The next preview state</param>
     public void SetPreviewState(bool isPreview)
     {
         m_isPreview = isPreview;
@@ -79,12 +50,10 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
         m_rangeIndicator.gameObject.SetActive(isPreview);
     }
 
-    public void SetSizeIndicatorColor(Color color)
-    {
-        m_sizeIndicator.color = color;
-    }
-
-
+    /// <summary>
+    /// Sets the current selectionState and enables/disables the indicators accordingly.
+    /// </summary>
+    /// <param name="isSelected">The next selection state</param>
     public void SetSelectionState(bool isSelected)
     {
         m_isSelected = isSelected;
@@ -94,80 +63,114 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
     }
 
 
+    public void SetSizeIndicatorColor(Color color)
+    {
+        m_sizeIndicator.color = color;
+    }
+
+
     private void Update()
     {
+        // Don't do logic, if we are in preview state
         if (m_isPreview)
             return;
 
+        // Can we try to attack?
         if(m_attackTimer > 0)
         {
+            // No, countdown cooldown
             m_attackTimer -= Time.deltaTime;
         }
         else
         {
-            EnemyController targetEnemy = null;
-            float targetValue = 0;
-            float targetProgress = 0;
-
-            // filter enemies
-            foreach (var enemy in EnemyController.ActiveEnemies)
+            // Yes, find enemy that best fits our targetMode and attack it
+            if(TryFindTargetEnemy(out var enemy))
             {
-                var distanceSqrt = (enemy.HitCenter - transform.position).sqrMagnitude;
-
-                var distanceThreshold = m_attackRadius + enemy.HitRadius;
-                distanceThreshold *= distanceThreshold;
-
-                if (distanceSqrt > distanceThreshold)
-                    continue;
-
-                var progress = enemy.Progress();
-
-                float value = m_targetMode switch
-                {
-                    TargetMode.First => enemy.Progress(),
-                    TargetMode.Last => -enemy.Progress(),
-                    TargetMode.Close => -distanceSqrt,
-                    TargetMode.Strong => enemy.Strength(),
-                    _ => 0,
-                };
-
-                if(targetEnemy == null || value > targetValue || (value == targetValue && progress > targetProgress))
-                {
-                    targetEnemy = enemy;
-
-                    targetProgress = progress;
-                    targetValue = value;
-                }
-            }
-
-            if(targetEnemy != null)
-            {
-                m_attackTimer = 1 / m_data.AttackSpeed;
-                Attack(targetEnemy);
+                ShootAtEnemy(enemy);
+                m_attackTimer = 1 / Data.AttackSpeed;
             }
         }
     }
 
 
-    private void Attack(EnemyController target)
+    private bool TryFindTargetEnemy(out EnemyController targetEnemy)
     {
-        var direction = (target.transform.position - transform.position).normalized;
-        var directionOffset = m_data.AttackSpread * Random.Range(-1.0f, 1.0f);
+        // Calculate the maximum shooting distance
+        var distanceThreshold = Data.AttackRadius * Data.AttackRadius;
 
+        targetEnemy = null;
+        float targetValue = 0;
+        float targetProgress = 0;
+
+        foreach (var enemy in EnemyController.ActiveEnemies)
+        {
+            // Is Enemy in range?
+            var distanceSqrt = (enemy.HitCenter - transform.position).sqrMagnitude;
+            if (distanceSqrt > distanceThreshold)
+                continue;
+
+            float progress = enemy.Progress();
+
+            // Calculate a value based on our targetMode
+            float value = Data.TargetMode switch
+            {
+                // Furthest on the path => biggest progrssion
+                TargetMode.First => progress,
+
+                // Last on the path => smallest progrssion
+                TargetMode.Last => -progress,
+
+                // Closest to the tower => smallest distance 
+                TargetMode.Close => -distanceSqrt,
+
+                // Strongest and most dangerous enemy for the player => biggest strength
+                TargetMode.Strong => enemy.Strength(),
+
+                _ => 0,
+            };
+
+            // If we have no target yet
+            // or this enemy has a better filter value
+            // or for the same filter values it is further on the path
+            if (targetEnemy == null || value > targetValue || (value == targetValue && progress > targetProgress))
+            {
+                targetEnemy = enemy;
+
+                targetProgress = progress;
+                targetValue = value;
+            }
+        }
+
+        return targetEnemy != null;
+    }
+
+
+    private void ShootAtEnemy(EnemyController enemy)
+    {
+        // Calculate direction to enemy
+        var direction = (enemy.HitCenter - transform.position).normalized;
+
+        // Rotate tower head to aim at that direction
         m_headContainer.up = direction;
 
+        // Offset the direction based on our attackSpread
+        // Do that after rotating, or else the tower jitters like the projectiles
+        var directionOffset = Data.AttackSpread * Random.Range(-1.0f, 1.0f);
         direction = direction.RotateRad(directionOffset);
 
-        var bullet = Instantiate(m_data.ProjectilePrefab, transform);
-        bullet.transform.position = m_bulletSpawnPoint.position;
-        bullet.Setup(direction);
+        // Spawn and setup the projectile
+        var projectile = Instantiate(Data.ProjectilePrefab, transform);
+        projectile.transform.position = m_projectileSpawnPoint.position;
+        projectile.Setup(direction);
     }
 
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        m_buildManager.SelectBuilding(this);
+        // This building got clicked
+        // Tell the buildManager to select this building
+        TowerManager.Instance.SelectTower(this);
 
-        Debug.Log($"{name}: OnPointerClick()");
+        // Debug.Log($"{name}: OnPointerClick()");
     }
 }
