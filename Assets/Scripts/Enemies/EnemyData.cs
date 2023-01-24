@@ -19,7 +19,6 @@ public class EnemyData : GenericData<EnemyController>
 
     [Header("Health")]
     public int MaxHealth = 1;
-    public GameObject DeathEffectPrefab;
 
     [Header("Children")]
     public bool OverflowDamage = true;

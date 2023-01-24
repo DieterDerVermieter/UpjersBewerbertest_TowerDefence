@@ -17,5 +17,5 @@ MonoBehaviour:
   MaxLifetime: 0.5
   CanHitFlyingEnemies: 1
   HitRadius: 0.1
-  HitDamage: 5
+  HitDamage: 1
   MaxPiercing: 2

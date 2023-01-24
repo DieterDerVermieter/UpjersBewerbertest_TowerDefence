@@ -156,8 +156,8 @@ public class EnemyController : GenericController<EnemyData>
         // Spawn children
         EnemySpawner.Instance.SpawnChildren(Data, DistanceAlongPath, Identifier, overflowDamage);
 
-        // Spawn a death effect
-        Instantiate(Data.DeathEffectPrefab, transform.position, Quaternion.identity, transform.parent);
+        // Play death effects
+        EffectManager.Instance.PlayEnemyDeathEffect(transform.position);
 
         Destroy(gameObject);
     }
