@@ -1,10 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class MapLayout : Singleton<MapLayout>
 {
+    [System.Serializable]
+    private class Waypoint
+    {
+        public Vector3 Position;
+        public Vector3 Direction;
+        public float Distance;
+    }
+
+
     [Header("Path")]
     [SerializeField] private Transform m_waypointContainer;
 
@@ -16,7 +22,7 @@ public class MapLayout : Singleton<MapLayout>
 
 
     // Generated waypoints
-    [HideInInspector][SerializeField] private Vector3[] m_waypoints;
+    [HideInInspector][SerializeField] private Waypoint[] m_waypoints;
 
     // Generated grid
     [HideInInspector][SerializeField] private bool[] m_grid;
@@ -30,24 +36,77 @@ public class MapLayout : Singleton<MapLayout>
 
 
     #region Path
-    public int GetWaypointCount() => m_waypoints.Length;
+    /// <summary>
+    /// Calculates the position on the path given a distance.
+    /// </summary>
+    /// <param name="distance">The distance along the path</param>
+    /// <param name="position">The position on the path</param>
+    /// <returns>If the position is still on the path</returns>
+    public bool GetPositionOnPath(float distance, out Vector3 position)
+    {
+        Waypoint waypoint = null;
+        int waypointIndex = 0;
 
-    public Vector3 GetWaypoint(int index) => m_waypoints[index];
+        // Loop trough all waypoints but the last one
+        while(waypointIndex < m_waypoints.Length - 1)
+        {
+            waypoint = m_waypoints[waypointIndex];
+            if (waypoint.Distance > distance)
+            {
+                // Found a waypoint that reaches further than we want to go
+                position = waypoint.Position + waypoint.Direction * distance;
+                return true;
+            }
+            else
+            {
+                distance -= waypoint.Distance;
+                waypointIndex++;
+            }
+        }
+
+        // If we are further then the second last one, return the position of the last one
+        // Also, we are no longer on the track, so return false
+        position = m_waypoints[waypointIndex].Position;
+        return false;
+    }
 
 
 #if UNITY_EDITOR
     [MyBox.ButtonMethod]
     private void GeneratePath()
     {
-        m_waypoints = new Vector3[m_waypointContainer.childCount];
+        m_waypoints = new Waypoint[m_waypointContainer.childCount];
+        float totalDistance = 0;
 
         // Generate the path based on the waypoints in the specified container
         for (int i = 0; i < m_waypointContainer.childCount; i++)
         {
-            m_waypoints[i] = m_waypointContainer.GetChild(i).position;
+            var position = m_waypointContainer.GetChild(i).position;
+
+            // Last waypoint has no nextWaypoint
+            if (i >= m_waypointContainer.childCount - 1)
+            {
+                m_waypoints[i] = new Waypoint
+                {
+                    Position = position,
+                };
+
+                continue;
+            }
+
+            var nextPosition = m_waypointContainer.GetChild(i + 1).position;
+
+            m_waypoints[i] = new Waypoint
+            {
+                Position = position,
+                Direction = (nextPosition - position).normalized,
+                Distance = (nextPosition - position).magnitude
+            };
+
+            totalDistance += m_waypoints[i].Distance;
         }
 
-        Debug.Log($"Generated Path containing {GetWaypointCount()} Waypoints.");
+        Debug.Log($"Generated Path containing {m_waypoints.Length} Waypoints and a total distance of {totalDistance}.");
     }
 #endif
     #endregion
@@ -164,9 +223,9 @@ public class MapLayout : Singleton<MapLayout>
             var pathColor = Color.yellow;
 
             Gizmos.color = pathColor;
-            for (int i = 0; i < GetWaypointCount() - 1; i++)
+            for (int i = 0; i < m_waypoints.Length - 1; i++)
             {
-                Gizmos.DrawLine(GetWaypoint(i), GetWaypoint(i + 1));
+                Gizmos.DrawLine(m_waypoints[i].Position, m_waypoints[i + 1].Position);
             }
         }
 

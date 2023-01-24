@@ -109,7 +109,7 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
             if (distanceSqrt > distanceThreshold)
                 continue;
 
-            float progress = enemy.Progress();
+            float progress = enemy.DistanceAlongPath;
 
             // Calculate a value based on our targetMode
             float value = Data.TargetMode switch
@@ -123,8 +123,8 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
                 // Closest to the tower => smallest distance 
                 TargetMode.Close => -distanceSqrt,
 
-                // Strongest and most dangerous enemy for the player => biggest strength
-                TargetMode.Strong => enemy.Strength(),
+                // Strongest and most dangerous enemy for the player => biggest leak damage
+                TargetMode.Strong => enemy.Data.LeakDamage,
 
                 _ => 0,
             };

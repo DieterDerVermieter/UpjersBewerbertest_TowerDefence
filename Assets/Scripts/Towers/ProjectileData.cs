@@ -9,7 +9,7 @@ public class ProjectileData : GenericData<ProjectileController>
     public float MaxLifetime = 1.0f;
 
     public float HitRadius = 0.1f;
-    public float HitDamage = 10.0f;
+    public int HitDamage = 1;
 
     public int MaxPiercing = 1;
 }

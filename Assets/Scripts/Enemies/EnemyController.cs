@@ -8,11 +8,8 @@ public class EnemyController : GenericController<EnemyData>
     private CircleCollider2D m_circleCollider;
 
     private bool m_isActive;
-    private int m_identifier;
 
-    private int m_nextWaypointIndex;
-
-    private float m_currentHealth;
+    private int m_currentHealth;
 
 
     /// <summary>
@@ -21,9 +18,20 @@ public class EnemyController : GenericController<EnemyData>
     public static List<EnemyController> ActiveEnemies { get; private set; } = new List<EnemyController>();
 
     /// <summary>
-    /// Identifer of this enemy. Gets passed to the child of this enemy.
+    /// The distance along the path the enemy has traveled.
     /// </summary>
-    public int Identifier => m_identifier;
+    public float DistanceAlongPath { get; private set; }
+
+    /// <summary>
+    /// Identifer of this enemy.
+    /// </summary>
+    public int Identifier { get; private set; }
+
+    /// <summary>
+    /// Identifer of the parent of this enemy.
+    /// Gets passed to the child of this enemy. Negative values mean no parent.
+    /// </summary>
+    public int ParentIdentifier { get; private set; }
 
     /// <summary>
     /// The world position attacks should be aimed at
@@ -45,12 +53,22 @@ public class EnemyController : GenericController<EnemyData>
     /// <summary>
     /// Setup this enemy.
     /// </summary>
-    /// <param name="nextWaypoint">Waypoint the enemy should head towards.</param>
+    /// <param name="distanceAlongPath">Distance along the path</param>
     /// <param name="identifier">Identifier of this enemy</param>
-    public void Setup(int nextWaypoint, int identifier)
+    /// <param name="parentIdentifier">Identifier of the parent of this enemy</param>
+    /// <param name="overflowDamage">The enemy starts with reduced health</param>
+    public void Setup(float distanceAlongPath, int identifier, int parentIdentifier, int overflowDamage)
     {
-        m_nextWaypointIndex = nextWaypoint;
-        m_identifier = identifier;
+        DistanceAlongPath = distanceAlongPath;
+        Identifier = identifier;
+        ParentIdentifier = parentIdentifier;
+
+        // Setup initial position
+        MapLayout.Instance.GetPositionOnPath(distanceAlongPath, out var position);
+        transform.position = position;
+
+        // Setup health
+        m_currentHealth = Data.MaxHealth - overflowDamage;
 
         // Activate enemy
         ActiveEnemies.Add(this);
@@ -61,18 +79,10 @@ public class EnemyController : GenericController<EnemyData>
     private void OnDestroy()
     {
         // If the object gets destroyed through some outside force, remove it from the list
-        ActiveEnemies.Remove(this);
-    }
-
-
-    private void Start()
-    {
-        // If we can fly, skip all waypoints and head towards last one
-        if (Data.CanFly)
-            m_nextWaypointIndex = MapLayout.Instance.GetWaypointCount() - 1;
-
-        // Fill up our health
-        m_currentHealth = Data.MaxHealth;
+        if(m_isActive)
+        {
+            ActiveEnemies.Remove(this);
+        }
     }
 
 
@@ -82,44 +92,17 @@ public class EnemyController : GenericController<EnemyData>
         if (!m_isActive)
             return;
 
-        // Distance we want to travel this tick
-        var distanceLeft = Data.MovementSpeed * Time.fixedDeltaTime;
-        bool m_reachedExit = false;
+        // Increase distance along the path
+        DistanceAlongPath += Data.MovementSpeed * Time.fixedDeltaTime;
 
-        // Move while we have distance left
-        while(distanceLeft > 0)
-        {
-            // Did we reach the exit?
-            if(m_nextWaypointIndex >= MapLayout.Instance.GetWaypointCount())
-            {
-                m_reachedExit = true;
-                break;
-            }
-
-            // Calculate position of the next waypoint
-            var targetPosition = MapLayout.Instance.GetWaypoint(m_nextWaypointIndex);
-            var vectorToTarget = targetPosition - transform.position;
-
-            var distance = distanceLeft;
-
-            // Calulate distance to next waypoint
-            var distanceToTarget = vectorToTarget.magnitude;
-            if(distanceToTarget < distance)
-            {
-                distance = distanceToTarget;
-                m_nextWaypointIndex++;
-            }
-
-            // Move
-            transform.position += vectorToTarget.normalized * distance;
-            distanceLeft -= distance;
-        }
-
-        // Leak, if we reached the exit
-        if (m_reachedExit)
+        // Have we reached the exit?
+        if(!MapLayout.Instance.GetPositionOnPath(DistanceAlongPath, out var position))
         {
             Leak();
         }
+
+        // Move along the path
+        transform.position = position;
     }
 
 
@@ -127,7 +110,7 @@ public class EnemyController : GenericController<EnemyData>
     /// Deals damage to the enemy. Can cause death, if enemy health reches zero.
     /// </summary>
     /// <param name="amount">The amount of damage to deal to the enemy</param>
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         if (amount < 0)
             return;
@@ -137,12 +120,12 @@ public class EnemyController : GenericController<EnemyData>
         // Did we die?
         if (m_currentHealth <= 0)
         {
-            Die();
-            return;
-        }
+            int overflowDamage = 0;
+            if (Data.OverflowDamage)
+                overflowDamage = -m_currentHealth;
 
-        // Spawn a hit effect, if we didn't die
-        Instantiate(Data.HitEffectPrefab, transform.position, Quaternion.identity, transform.parent);
+            Die(overflowDamage);
+        }
     }
 
 
@@ -151,7 +134,7 @@ public class EnemyController : GenericController<EnemyData>
     /// Rewards cash to the player.
     /// Spawns a child if it has one.
     /// </summary>
-    public void Die()
+    public void Die(int overflowDamage)
     {
         // Deactivate enemy
         ActiveEnemies.Remove(this);
@@ -160,9 +143,8 @@ public class EnemyController : GenericController<EnemyData>
         // Reward cash to the player
         GameManager.Instance.RewardCash(Data.CashReward);
 
-        // Spawn a child enemy with our position and identifier
-        if (Data.Child != null)
-            EnemySpawner.Instance.SpawnEnemy(Data.Child, transform.position, m_nextWaypointIndex, m_identifier);
+        // Spawn children
+        EnemySpawner.Instance.SpawnChildren(Data, DistanceAlongPath, Identifier, overflowDamage);
 
         // Spawn a death effect
         Instantiate(Data.DeathEffectPrefab, transform.position, Quaternion.identity, transform.parent);
@@ -185,30 +167,5 @@ public class EnemyController : GenericController<EnemyData>
         GameManager.Instance.LeakLives(Data.LeakDamage);
 
         Destroy(gameObject);
-    }
-
-
-    /// <summary>
-    /// Calculates the progress of the enemy on the path.
-    /// Used for tower targeting.
-    /// </summary>
-    /// <returns>The current progress of the enemy</returns>
-    public float Progress()
-    {
-        // Use last waypoint for ground units and first for flying units
-        var waypointA = Data.CanFly ? MapLayout.Instance.GetWaypoint(0) : MapLayout.Instance.GetWaypoint(m_nextWaypointIndex - 1);
-        var waypointB = MapLayout.Instance.GetWaypoint(m_nextWaypointIndex);
-
-        return m_nextWaypointIndex + transform.position.InverseLerp(waypointA, waypointB);
-    }
-
-    /// <summary>
-    /// Calculates the enemies strength.
-    /// Used for tower targeting.
-    /// </summary>
-    /// <returns>The strength of the enemy</returns>
-    public float Strength()
-    {
-        return Data.LeakDamage;
     }
 }

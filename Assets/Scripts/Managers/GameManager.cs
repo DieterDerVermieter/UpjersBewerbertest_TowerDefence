@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     [Header("Waves")]
+    [SerializeField] private bool m_playInfinite = false;
     [SerializeField] private WaveData[] m_waves;
 
     [Header("Resources")]
@@ -76,10 +77,18 @@ public class GameManager : Singleton<GameManager>
             // Is the wave cleared?
             if (!EnemySpawner.Instance.IsSpawning && EnemyController.ActiveEnemies.Count <= 0)
             {
-                // Have we beaten the game?
-                CurrentWave++;
-                if (CurrentWave >= MaxWaves)
-                    EndGame(true);
+                // For testing, we loop waves back around to play infinite
+                if(m_playInfinite)
+                {
+                    CurrentWave = (CurrentWave + 1) % MaxWaves;
+                }
+                else
+                {
+                    // Have we beaten the game?
+                    CurrentWave++;
+                    if (CurrentWave >= MaxWaves)
+                        EndGame(true);
+                }                
 
                 // Reset time scale
                 Time.timeScale = 1;

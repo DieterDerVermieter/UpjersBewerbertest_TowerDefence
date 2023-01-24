@@ -88,6 +88,10 @@ public class ProjectileController : GenericController<ProjectileData>
             if (m_hitList.Contains(enemy.Identifier))
                 continue;
 
+            // Skip Enemy, if we hit it's parent before
+            if (m_hitList.Contains(enemy.ParentIdentifier))
+                continue;
+
             // Hit Enemy
             enemy.TakeDamage(Data.HitDamage);
 

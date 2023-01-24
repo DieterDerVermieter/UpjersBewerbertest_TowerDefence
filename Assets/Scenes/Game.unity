@@ -156,17 +156,7 @@ MonoBehaviour:
   m_gridAreaSize: {x: 12, y: 12}
   m_gridAreaOffset: {x: -6, y: -6, z: 0}
   m_pathCollider: {fileID: 1646719963}
-  m_waypoints:
-  - {x: -6.5, y: 3.5, z: 0}
-  - {x: -1.5, y: 3.5, z: 0}
-  - {x: -1.5, y: -3.5, z: 0}
-  - {x: -4.5, y: -3.5, z: 0}
-  - {x: -4.5, y: 0.5, z: 0}
-  - {x: 1.5, y: 0.5, z: 0}
-  - {x: 1.5, y: 4.5, z: 0}
-  - {x: 3.5, y: 4.5, z: 0}
-  - {x: 3.5, y: -6.5, z: 0}
-  m_grid: 000000000000000000000000000000000000010100000000000000000000000000000000000000000000010100000000000000000000000000000000000000000000010100000000000000000000000000000000000000000000010100000000000001010101010101010000000000000000010100000000000001010101010101010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010101010101010101010101010000010100000000000001010101010101010101010101010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000010101010101010101010000000001010000010100000000010101010101010101010000000001010000010100000000000000000000000000000000000001010101010100000000000000000000000000000000000001010101010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_grid: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010000000000000000010101010101000001010101010101010000000000000000010101010101000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010000000001010000000000000000010100000000000001010101010101010101010101010000010100000000000001010101010101010101010101010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000000000000000000001010000000001010000010100000000010101010101010101010000000001010000010100000000010101010101010101010000000001010000010100000000000000000000000000000000000001010101010100000000000000000000000000000000000001010101010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_gridSize: {x: 24, y: 24}
   m_gridOffset: {x: -6, y: -6, z: 0}
 --- !u!4 &66979128
@@ -2551,7 +2541,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326392762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: -6.5, z: 0}
+  m_LocalPosition: {x: 3.5, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4754,7 +4744,39 @@ Transform:
   - {fileID: 162405837}
   - {fileID: 2140393218}
   - {fileID: 326392763}
+  - {fileID: 1523509781}
   m_Father: {fileID: 66979128}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1523509780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523509781}
+  m_Layer: 0
+  m_Name: Waypoint (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1523509781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523509780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.5, y: -3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1505849013}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1539085103
@@ -5198,26 +5220,6 @@ Tilemap:
   m_GameObject: {fileID: 1646719959}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: 3, y: -6, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 3
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 2147483650
-  - first: {x: 3, y: -5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 3
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 2147483650
   - first: {x: -5, y: -4, z: 0}
     second:
       serializedVersion: 2
@@ -5262,8 +5264,28 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483650
+  - first: {x: 4, y: -4, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
       m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 3
+      m_TileMatrixIndex: 2
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483650
+  - first: {x: 5, y: -4, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -5609,12 +5631,12 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 1400490955, guid: c2d4dd505dd719345b9913df84fca510, type: 3}
-  - m_RefCount: 7
+  - m_RefCount: 8
     m_Data: {fileID: 667047064, guid: c2d4dd505dd719345b9913df84fca510, type: 3}
-  - m_RefCount: 32
+  - m_RefCount: 31
     m_Data: {fileID: -802739196, guid: c2d4dd505dd719345b9913df84fca510, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1
+  - m_RefCount: 3
     m_Data:
       e00: 0.000000059604645
       e01: -0.99999994
@@ -5650,7 +5672,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 13
+  - m_RefCount: 14
     m_Data:
       e00: 0.000000059604645
       e01: 0.99999994
@@ -5668,7 +5690,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 24
+  - m_RefCount: 21
     m_Data:
       e00: 1
       e01: 0
@@ -6134,22 +6156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24685a04d90964b46905351add5a1ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playInfinite: 1
   m_waves:
-  - {fileID: 11400000, guid: 9e8d6b937fd5e2549bbbc1c9b064a3b4, type: 2}
-  - {fileID: 11400000, guid: af6b1761f6ca4d44f9a90a4baeaa9827, type: 2}
-  - {fileID: 11400000, guid: f0970939e442e4e4e8339e5d8a0232dc, type: 2}
-  - {fileID: 11400000, guid: 542d74581c0c22b438d9494239038868, type: 2}
-  - {fileID: 11400000, guid: 63b5f3d3166bf7b4792de97d9436a9f8, type: 2}
-  - {fileID: 11400000, guid: 6089bc703f2ec864b83509ad84fe83f1, type: 2}
-  - {fileID: 11400000, guid: d186b6d5795d4f44db7fc6091a3923cd, type: 2}
-  - {fileID: 11400000, guid: c489cf5ad1fb9c14c9714872792557fb, type: 2}
-  - {fileID: 11400000, guid: d1e378cd93e66944faedec243ceee9f2, type: 2}
-  - {fileID: 11400000, guid: b49685ece29e6484584a52723bb069fd, type: 2}
-  - {fileID: 11400000, guid: 1e9c3ace7fa97a74ab7e3b19d6ae4f34, type: 2}
-  - {fileID: 11400000, guid: b0f71832cf79a2646b628b8939cf47af, type: 2}
-  - {fileID: 11400000, guid: ddd7dcf926ada7d4489534fb8d6b343b, type: 2}
-  - {fileID: 11400000, guid: ebf179a73df451148ad47bc2b867033e, type: 2}
-  - {fileID: 11400000, guid: 636c82262e16d3f4095233fa245ec923, type: 2}
+  - {fileID: 11400000, guid: 8541dc0d8b7e53147a96ebb6ab0cb58c, type: 2}
   m_startingLives: 100
   m_startingCash: 400
   m_endOfRoundCash: 100

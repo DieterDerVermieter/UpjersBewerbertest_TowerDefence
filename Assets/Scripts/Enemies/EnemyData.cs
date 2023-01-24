@@ -17,10 +17,10 @@ public class EnemyData : GenericData<EnemyController>
     public bool CanFly = false;
 
     [Header("Health")]
-    public float MaxHealth = 100.0f;
-    public GameObject HitEffectPrefab;
+    public int MaxHealth = 1;
     public GameObject DeathEffectPrefab;
 
-    [Header("Child")]
-    public EnemyData Child;
+    [Header("Children")]
+    public bool OverflowDamage = true;
+    public EnemyData[] Children;
 }

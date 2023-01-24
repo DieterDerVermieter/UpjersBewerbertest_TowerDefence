@@ -83,28 +83,45 @@ public class EnemySpawner : Singleton<EnemySpawner>
 
 
     /// <summary>
-    /// Spawne a single enemy with a unique identifier.
+    /// Spawns a single enemy with a unique identifier.
     /// </summary>
     /// <param name="enemyData">Enemy to be spawned</param>
     public void SpawnEnemy(EnemyData enemyData)
     {
-        SpawnEnemy(enemyData, MapLayout.Instance.GetWaypoint(0), 1, m_spawnIndex);
-        m_spawnIndex++;
+        SpawnEnemy(enemyData, distanceOnThePath: 0, parentIdentifer: - 1, overflowDamage: 0);
     }
 
     /// <summary>
-    /// Spawne a single enemy.
+    /// Spawns all children of the enemy recursivly.
     /// </summary>
-    /// <param name="data">Enemy to be spawned</param>
-    /// <param name="position">World position to spawn the enemy at</param>
-    /// <param name="nextWaypoint">The next waypoint the enemy should head towards</param>
-    /// <param name="identifier">The identifier of the enemy</param>
-    public void SpawnEnemy(EnemyData data, Vector3 position, int nextWaypoint, int identifier)
+    /// <param name="parentEnemy">Enemy to be spawned</param>
+    public void SpawnChildren(EnemyData parentData, float distanceAlongPath, int identifier, int overflowDamage)
+    {
+        foreach (var childData in parentData.Children)
+        {
+            // Can the child tank the overflow damage
+            if(childData.MaxHealth > overflowDamage)
+            {
+                // Spawn the child
+                SpawnEnemy(childData, distanceAlongPath, identifier, overflowDamage);
+            }
+            else
+            {
+                // Spawn the children of that child with adjusted overflow damage
+                SpawnChildren(childData, distanceAlongPath, identifier, overflowDamage - childData.MaxHealth);
+            }
+
+            distanceAlongPath -= 0.1f;
+        }
+    }
+
+
+    private void SpawnEnemy(EnemyData data, float distanceOnThePath, int parentIdentifer, int overflowDamage)
     {
         var enemy = Instantiate(data.ControllerPrefab, transform);
+        enemy.Setup(distanceOnThePath, m_spawnIndex, parentIdentifer, overflowDamage);
 
-        enemy.transform.position = position;
-        enemy.Setup(nextWaypoint, identifier);
+        m_spawnIndex++;
     }
 
 
