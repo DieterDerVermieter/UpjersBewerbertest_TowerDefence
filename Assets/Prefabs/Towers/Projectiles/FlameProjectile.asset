@@ -15,6 +15,7 @@ MonoBehaviour:
   ControllerPrefab: {fileID: 8368848229916934228, guid: da13128fd63ca4e4dbf5d3938525d7a3, type: 3}
   MovementSpeed: 5
   MaxLifetime: 0.5
+  CanHitFlyingEnemies: 0
   HitRadius: 0.3
   HitDamage: 2
   MaxPiercing: 10

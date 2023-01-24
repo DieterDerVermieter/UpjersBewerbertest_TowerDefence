@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class EnemyController : GenericController<EnemyData>
 {
+    [SerializeField] private Transform m_visualsContainer;
+
+
     private CircleCollider2D m_circleCollider;
 
     private bool m_isActive;
@@ -64,7 +67,7 @@ public class EnemyController : GenericController<EnemyData>
         ParentIdentifier = parentIdentifier;
 
         // Setup initial position
-        MapLayout.Instance.GetPositionOnPath(distanceAlongPath, out var position);
+        MapLayout.Instance.GetPositionOnPath(distanceAlongPath, Data.CanFly, out var position);
         transform.position = position;
 
         // Setup health
@@ -96,13 +99,20 @@ public class EnemyController : GenericController<EnemyData>
         DistanceAlongPath += Data.MovementSpeed * Time.fixedDeltaTime;
 
         // Have we reached the exit?
-        if(!MapLayout.Instance.GetPositionOnPath(DistanceAlongPath, out var position))
+        if(!MapLayout.Instance.GetPositionOnPath(DistanceAlongPath, Data.CanFly, out var position))
         {
             Leak();
         }
 
         // Move along the path
         transform.position = position;
+
+        // Rotate towards direction on path
+        if (Data.RotateVisuals)
+        {
+            MapLayout.Instance.GetDirectionOnPath(DistanceAlongPath, Data.CanFly, out var direction);
+            m_visualsContainer.right = direction;
+        }
     }
 
 

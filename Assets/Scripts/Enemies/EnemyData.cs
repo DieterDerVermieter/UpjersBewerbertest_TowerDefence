@@ -14,6 +14,7 @@ public class EnemyData : GenericData<EnemyController>
 
     [Header("Movement")]
     public float MovementSpeed = 1.0f;
+    public bool RotateVisuals = false;
     public bool CanFly = false;
 
     [Header("Health")]
@@ -23,4 +24,16 @@ public class EnemyData : GenericData<EnemyController>
     [Header("Children")]
     public bool OverflowDamage = true;
     public EnemyData[] Children;
+
+
+    [MyBox.ButtonMethod]
+    public void CalculateLeakDamage()
+    {
+        LeakDamage = MaxHealth;
+        foreach (var childData in Children)
+        {
+            childData.CalculateLeakDamage();
+            LeakDamage += childData.LeakDamage;
+        }
+    }
 }

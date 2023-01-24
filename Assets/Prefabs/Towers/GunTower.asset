@@ -16,6 +16,10 @@ MonoBehaviour:
   DisplayName: Gun Tower
   Icon: {fileID: -894825544, guid: 6addc9e306f90b14b825ea70b3636fcf, type: 3}
   Price: 250
+  GridSize: 2
+  CanHitFlyingEnemies: 1
+  AttackRadius: 2
+  TargetMode: 0
   AttackSpeed: 0.7
   AttackSpread: 0
   ProjectilePrefab: {fileID: 8368848229916934228, guid: 3c65cd6626b04a34d941ef1ef12be334, type: 3}

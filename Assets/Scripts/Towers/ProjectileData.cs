@@ -8,6 +8,7 @@ public class ProjectileData : GenericData<ProjectileController>
     public float MovementSpeed = 10.0f;
     public float MaxLifetime = 1.0f;
 
+    public bool CanHitFlyingEnemies = true;
     public float HitRadius = 0.1f;
     public int HitDamage = 1;
 

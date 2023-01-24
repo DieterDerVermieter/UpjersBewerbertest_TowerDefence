@@ -109,6 +109,10 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
             if (distanceSqrt > distanceThreshold)
                 continue;
 
+            // Can we hit flying enemies?
+            if (!Data.CanHitFlyingEnemies && enemy.Data.CanFly)
+                continue;
+
             float progress = enemy.DistanceAlongPath;
 
             // Calculate a value based on our targetMode
@@ -130,9 +134,13 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
             };
 
             // If we have no target yet
+            // or this enemy can fly
             // or this enemy has a better filter value
-            // or for the same filter values it is further on the path
-            if (targetEnemy == null || value > targetValue || (value == targetValue && progress > targetProgress))
+            // or or it is further along the path
+            if (targetEnemy == null
+                || (enemy.Data.CanFly && !targetEnemy.Data.CanFly)
+                || value > targetValue
+                || (value == targetValue && progress > targetProgress))
             {
                 targetEnemy = enemy;
 

@@ -15,6 +15,7 @@ public class TowerData : GenericData<TowerController>
     public int GridSize = 2;
 
     [Header("Attack")]
+    public bool CanHitFlyingEnemies = true;
     public float AttackRadius = 2.0f;
     public TowerController.TargetMode TargetMode;
 

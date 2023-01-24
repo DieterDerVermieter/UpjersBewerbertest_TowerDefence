@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b3f802b677da54180f129f647d0cf8, type: 3}
+  m_Name: Bloon_YellowFlying
+  m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 4683273812290300324, guid: e0ff5da76dc4bc747a8c339661fecec4, type: 3}
+  DisplayName: Flying Yellow
+  LeakDamage: 4
+  CashReward: 1
+  MovementSpeed: 3.2
+  CanFly: 1
+  MaxHealth: 1
+  DeathEffectPrefab: {fileID: 7665646798308225049, guid: a0ab268f98c6c624ba36b491b69ae595, type: 3}
+  OverflowDamage: 1
+  Children:
+  - {fileID: 11400000, guid: 5094365109ecac041af4fc34603b5870, type: 2}

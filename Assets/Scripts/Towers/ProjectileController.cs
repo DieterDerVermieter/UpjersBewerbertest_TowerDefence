@@ -84,6 +84,10 @@ public class ProjectileController : GenericController<ProjectileData>
             if (!result.collider.TryGetComponent<EnemyController>(out var enemy))
                 continue;
 
+            // Skip Enemy, if we can't hit the enemy
+            if (!Data.CanHitFlyingEnemies && enemy.Data.CanFly)
+                continue;
+
             // Skip Enemy, if we hit it before
             if (m_hitList.Contains(enemy.Identifier))
                 continue;

@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2911605122591484837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1259435203147460962}
+  - component: {fileID: 4683273812290300324}
+  - component: {fileID: 4587446586643885402}
+  m_Layer: 7
+  m_Name: Bloon_BlueFlying
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1259435203147460962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911605122591484837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7387135342261186711}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4683273812290300324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911605122591484837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0758c01e658ab5645a8103a3eb910b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 051446dffd2a7774da95612b5b1c80f9, type: 2}
+  m_visualsContainer: {fileID: 7387135342261186711}
+--- !u!58 &4587446586643885402
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911605122591484837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.21
+--- !u!1001 &5026782476713349060
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 1259435203147460962}
+    m_Modifications:
+    - target: {fileID: 104473810144380097, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_Name
+      value: BloonVisuals_Air
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509808411930425723, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509808411930425723, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330167664500379248, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1971658648, guid: d4e0f2bf99c75da499e366225fd7e310, type: 3}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+--- !u!4 &7387135342261186711 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2541957032166981459, guid: a798c07ccab009d49b59b53fd6dfefd2, type: 3}
+  m_PrefabInstance: {fileID: 5026782476713349060}
+  m_PrefabAsset: {fileID: 0}

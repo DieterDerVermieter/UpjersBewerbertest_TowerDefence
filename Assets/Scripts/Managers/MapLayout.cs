@@ -5,14 +5,15 @@ public class MapLayout : Singleton<MapLayout>
     [System.Serializable]
     private class Waypoint
     {
-        public Vector3 Position;
-        public Vector3 Direction;
-        public float Distance;
+        public Vector3 Position = Vector3.zero;
+        public Vector3 Direction = Vector3.right;
+        public float Distance = 0;
     }
 
 
     [Header("Path")]
-    [SerializeField] private Transform m_waypointContainer;
+    [SerializeField] private Transform m_groundWaypointsContainer;
+    [SerializeField] private Transform m_airWaypointsContainer;
 
     [Header("Grid")]
     [SerializeField] private Vector2Int m_gridAreaSize;
@@ -22,7 +23,8 @@ public class MapLayout : Singleton<MapLayout>
 
 
     // Generated waypoints
-    [HideInInspector][SerializeField] private Waypoint[] m_waypoints;
+    [HideInInspector][SerializeField] private Waypoint[] m_waypointsGround;
+    [HideInInspector][SerializeField] private Waypoint[] m_waypointsAir;
 
     // Generated grid
     [HideInInspector][SerializeField] private bool[] m_grid;
@@ -41,32 +43,67 @@ public class MapLayout : Singleton<MapLayout>
     /// </summary>
     /// <param name="distance">The distance along the path</param>
     /// <param name="position">The position on the path</param>
-    /// <returns>If the position is still on the path</returns>
-    public bool GetPositionOnPath(float distance, out Vector3 position)
+    /// <param name="isAirPosition">Calculate ground or air position</param>
+    /// <returns>If the distance is still on the path</returns>
+    public bool GetPositionOnPath(float distance, bool isAirPosition, out Vector3 position)
     {
-        Waypoint waypoint = null;
-        int waypointIndex = 0;
+        if (isAirPosition)
+            return GetPositionOnPath(ref m_waypointsAir, distance, out position);
 
-        // Loop trough all waypoints but the last one
-        while(waypointIndex < m_waypoints.Length - 1)
+        return GetPositionOnPath(ref m_waypointsGround, distance, out position);
+    }
+
+
+    /// <summary>
+    /// Calculates the direction on the path given a distance.
+    /// </summary>
+    /// <param name="distance">The distance along the path</param>
+    /// <param name="direction">The direction along the path</param>
+    /// <param name="isAirDirection">Calculate ground or air direction</param>
+    /// <returns>If the distance is still on the path</returns>
+    public bool GetDirectionOnPath(float distance, bool isAirDirection, out Vector3 direction)
+    {
+        if (isAirDirection)
+            return GetDirectionOnPath(ref m_waypointsAir, distance, out direction);
+
+        return GetDirectionOnPath(ref m_waypointsGround, distance, out direction);
+    }
+
+
+    private bool GetPositionOnPath(ref Waypoint[] waypoints, float distance, out Vector3 position)
+    {
+        if(GetWaypointOnPath(ref waypoints, ref distance, out var waypoint))
         {
-            waypoint = m_waypoints[waypointIndex];
-            if (waypoint.Distance > distance)
-            {
-                // Found a waypoint that reaches further than we want to go
-                position = waypoint.Position + waypoint.Direction * distance;
-                return true;
-            }
-            else
-            {
-                distance -= waypoint.Distance;
-                waypointIndex++;
-            }
+            position = waypoint.Position + waypoint.Direction * distance;
+            return true;
         }
 
-        // If we are further then the second last one, return the position of the last one
-        // Also, we are no longer on the track, so return false
-        position = m_waypoints[waypointIndex].Position;
+        position = waypoint.Position;
+        return false;
+    }
+
+    private bool GetDirectionOnPath(ref Waypoint[] waypoints, float distance, out Vector3 direction)
+    {
+        var isOnPath = GetWaypointOnPath(ref waypoints, ref distance, out var waypoint);
+        direction = waypoint.Direction;
+        return isOnPath;
+    }
+
+    private bool GetWaypointOnPath(ref Waypoint[] waypoints, ref float distance, out Waypoint waypoint)
+    {
+        // Find the waypoint that covers the distance
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            waypoint = waypoints[i];
+
+            if (waypoint.Distance > distance)
+                return true;
+
+            distance -= waypoint.Distance;
+        }
+
+        // Distance is too large
+        waypoint = waypoints[waypoints.Length - 1];
         return false;
     }
 
@@ -75,18 +112,30 @@ public class MapLayout : Singleton<MapLayout>
     [MyBox.ButtonMethod]
     private void GeneratePath()
     {
-        m_waypoints = new Waypoint[m_waypointContainer.childCount];
+        // Generate ground waypoints
+        float groundDistance = GenerateWaypoints(ref m_waypointsGround, m_groundWaypointsContainer);
+        Debug.Log($"Generated ground Path containing {m_waypointsGround.Length} Waypoints and a total distance of {groundDistance}.");
+
+        // Generate air waypoints
+        float airDistance = GenerateWaypoints(ref m_waypointsAir, m_airWaypointsContainer);
+        Debug.Log($"Generated air Path containing {m_waypointsAir.Length} Waypoints and a total distance of {airDistance}.");
+    }
+
+
+    private float GenerateWaypoints(ref Waypoint[] waypoints, Transform waypointContainer)
+    {
+        waypoints = new Waypoint[waypointContainer.childCount];
         float totalDistance = 0;
 
-        // Generate the path based on the waypoints in the specified container
-        for (int i = 0; i < m_waypointContainer.childCount; i++)
+        // Generate the ground path based on the waypoints in the specified container
+        for (int i = 0; i < waypointContainer.childCount; i++)
         {
-            var position = m_waypointContainer.GetChild(i).position;
+            var position = waypointContainer.GetChild(i).position;
 
             // Last waypoint has no nextWaypoint
-            if (i >= m_waypointContainer.childCount - 1)
+            if (i >= waypointContainer.childCount - 1)
             {
-                m_waypoints[i] = new Waypoint
+                waypoints[i] = new Waypoint
                 {
                     Position = position,
                 };
@@ -94,19 +143,20 @@ public class MapLayout : Singleton<MapLayout>
                 continue;
             }
 
-            var nextPosition = m_waypointContainer.GetChild(i + 1).position;
+            // The next waypoint we are heading towards
+            var nextPosition = waypointContainer.GetChild(i + 1).position;
 
-            m_waypoints[i] = new Waypoint
+            waypoints[i] = new Waypoint
             {
                 Position = position,
                 Direction = (nextPosition - position).normalized,
                 Distance = (nextPosition - position).magnitude
             };
 
-            totalDistance += m_waypoints[i].Distance;
+            totalDistance += waypoints[i].Distance;
         }
 
-        Debug.Log($"Generated Path containing {m_waypoints.Length} Waypoints and a total distance of {totalDistance}.");
+        return totalDistance;
     }
 #endif
     #endregion
@@ -218,17 +268,31 @@ public class MapLayout : Singleton<MapLayout>
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if (m_waypoints != null)
+        // Draw ground path
+        if (m_waypointsGround != null)
         {
             var pathColor = Color.yellow;
 
             Gizmos.color = pathColor;
-            for (int i = 0; i < m_waypoints.Length - 1; i++)
+            for (int i = 0; i < m_waypointsGround.Length - 1; i++)
             {
-                Gizmos.DrawLine(m_waypoints[i].Position, m_waypoints[i + 1].Position);
+                Gizmos.DrawLine(m_waypointsGround[i].Position, m_waypointsGround[i + 1].Position);
             }
         }
 
+        // Draw air path
+        if (m_waypointsAir != null)
+        {
+            var pathColor = Color.red;
+
+            Gizmos.color = pathColor;
+            for (int i = 0; i < m_waypointsAir.Length - 1; i++)
+            {
+                Gizmos.DrawLine(m_waypointsAir[i].Position, m_waypointsAir[i + 1].Position);
+            }
+        }
+
+        // Draw grid
         if (m_grid != null)
         {
             for (int x = 0; x < m_gridSize.x; x++)
