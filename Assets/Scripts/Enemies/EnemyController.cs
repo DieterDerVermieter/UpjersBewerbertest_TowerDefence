@@ -30,6 +30,11 @@ public class EnemyController : GenericController<EnemyData>
     /// </summary>
     public Vector3 HitCenter => transform.position + (Vector3)m_circleCollider.offset;
 
+    /// <summary>
+    /// The radius of the hitBox
+    /// </summary>
+    public float HitRadius => m_circleCollider.radius;
+
 
     private void Awake()
     {

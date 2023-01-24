@@ -105,7 +105,7 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
         foreach (var enemy in EnemyController.ActiveEnemies)
         {
             // Is Enemy in range?
-            var distanceSqrt = (enemy.HitCenter - transform.position).sqrMagnitude;
+            var distanceSqrt = (enemy.HitCenter - transform.position).sqrMagnitude - (enemy.HitRadius * enemy.HitRadius);
             if (distanceSqrt > distanceThreshold)
                 continue;
 
