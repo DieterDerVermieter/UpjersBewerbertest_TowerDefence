@@ -18,7 +18,7 @@ MonoBehaviour:
   Price: 250
   GridSize: 2
   CanHitFlyingEnemies: 1
-  AttackRadius: 2
+  AttackRadius: 3
   TargetMode: 0
   AttackSpeed: 0.7
   AttackSpread: 0

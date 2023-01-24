@@ -18,8 +18,3 @@ MonoBehaviour:
       Count: 20
       Delay: 1
     Delay: 0
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 67fd805dd0fd4a54da7fb52596c4ffe2, type: 2}
-      Count: 200
-      Delay: 0.1
-    Delay: 0

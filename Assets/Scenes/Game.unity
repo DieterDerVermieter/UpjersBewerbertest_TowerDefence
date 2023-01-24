@@ -6408,7 +6408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24685a04d90964b46905351add5a1ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playInfinite: 1
+  m_playInfinite: 0
   m_waves:
   - {fileID: 11400000, guid: 9e8d6b937fd5e2549bbbc1c9b064a3b4, type: 2}
   - {fileID: 11400000, guid: c195658b8afaff24490a4658da0f75db, type: 2}
@@ -6451,7 +6451,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bfe6e3ea3c0b8c9409eb6a34d966e339, type: 2}
   - {fileID: 11400000, guid: 14a3f37074a4a984aa992e1e27ad17c2, type: 2}
   m_startingLives: 100
-  m_startingCash: 1000
+  m_startingCash: 400
   m_endOfRoundCash: 100
 --- !u!4 &1817855133
 Transform:

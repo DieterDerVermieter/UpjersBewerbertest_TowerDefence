@@ -15,11 +15,11 @@ MonoBehaviour:
   ControllerPrefab: {fileID: 1593140798008447108, guid: 4838f88186eb3ec47b92febd7e10ed2e, type: 3}
   DisplayName: Flame Tower
   Icon: {fileID: 706644614, guid: 7ab68fc9718f4e147a7465781be4ad58, type: 3}
-  Price: 600
+  Price: 1200
   GridSize: 3
   CanHitFlyingEnemies: 0
   AttackRadius: 2
   TargetMode: 2
   AttackSpeed: 10
-  AttackSpread: 0.2
+  AttackSpread: 0.3
   ProjectilePrefab: {fileID: 8368848229916934228, guid: da13128fd63ca4e4dbf5d3938525d7a3, type: 3}
