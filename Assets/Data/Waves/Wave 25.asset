@@ -16,10 +16,10 @@ MonoBehaviour:
   - Batch:
       Enemy: {fileID: 11400000, guid: 0d16731ef61a7cf4cabd31756f387fe0, type: 2}
       Count: 50
-      Delay: 1
+      Delay: 0.5
     Delay: 0
   - Batch:
       Enemy: {fileID: 11400000, guid: a5d0e74957837f54daf8518b1c716092, type: 2}
       Count: 10
-      Delay: 1
-    Delay: 0
+      Delay: 0.5
+    Delay: 25

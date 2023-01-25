@@ -250,9 +250,6 @@ MonoBehaviour:
   m_rangeIndicator: {fileID: 300201330835104388}
   m_headContainer: {fileID: 6030332588056391270}
   m_projectileSpawnPoint: {fileID: 587417027}
-  m_enemyMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!65 &3568172083581777978
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -402,7 +399,7 @@ SortingGroup:
   m_GameObject: {fileID: 6030332588257863676}
   m_Enabled: 1
   m_SortingLayerID: 1053378275
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &8735502130010650079

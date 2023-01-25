@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Batches:
   - Batch:
-      Enemy: {fileID: 11400000, guid: a5d0e74957837f54daf8518b1c716092, type: 2}
-      Count: 42
-      Delay: 1
-    Delay: 0
-  - Batch:
       Enemy: {fileID: 11400000, guid: b31f361e1fb8b4b4aacbeda1be238dd7, type: 2}
       Count: 17
-      Delay: 1
+      Delay: 0.25
     Delay: 0
   - Batch:
-      Enemy: {fileID: 11400000, guid: 9438442b9e9fd5d45b7b8817cef39825, type: 2}
-      Count: 10
-      Delay: 1
-    Delay: 0
+      Enemy: {fileID: 11400000, guid: a5d0e74957837f54daf8518b1c716092, type: 2}
+      Count: 42
+      Delay: 0.5
+    Delay: 2
   - Batch:
       Enemy: {fileID: 11400000, guid: 589890b117619cb45957217addff7e40, type: 2}
       Count: 14
-      Delay: 1
-    Delay: 0
+      Delay: 0.25
+    Delay: 5
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 9438442b9e9fd5d45b7b8817cef39825, type: 2}
+      Count: 10
+      Delay: 0.5
+    Delay: 5
   - Batch:
       Enemy: {fileID: 11400000, guid: d1c8cb5f97e1a56499c3c196d41b672f, type: 2}
       Count: 2
       Delay: 1
-    Delay: 0
+    Delay: 10

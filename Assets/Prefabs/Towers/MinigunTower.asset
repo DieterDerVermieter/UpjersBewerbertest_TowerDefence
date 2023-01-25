@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControllerPrefab: {fileID: 1593140798008447108, guid: 0f450ad2b16d5dd45bb15a5820a854b9, type: 3}
   DisplayName: Minigun Tower
-  Icon: {fileID: -894825544, guid: 6addc9e306f90b14b825ea70b3636fcf, type: 3}
-  Price: 2000
-  GridSize: 2
+  Icon: {fileID: 1287076033, guid: 8bac52c9a7b8c174ea3bca3e76e3a3e8, type: 3}
+  Price: 2400
+  GridSize: 3
   CanHitFlyingEnemies: 1
-  AttackRadius: 2.5
+  AttackRadius: 2.2
   TargetMode: 0
   AttackSpeed: 20
   AttackSpread: 0.4
+  ProjectileCount: 1
+  ProjectileSpread: 0
   ProjectilePrefab: {fileID: 8368848229916934228, guid: 3c65cd6626b04a34d941ef1ef12be334, type: 3}

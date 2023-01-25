@@ -22,19 +22,19 @@ MonoBehaviour:
       Enemy: {fileID: 11400000, guid: 644b208bda6a92e40b5005244c907694, type: 2}
       Count: 15
       Delay: 1
-    Delay: 0
+    Delay: 3
   - Batch:
       Enemy: {fileID: 11400000, guid: 67fd805dd0fd4a54da7fb52596c4ffe2, type: 2}
       Count: 12
       Delay: 1
-    Delay: 0
+    Delay: 2
   - Batch:
       Enemy: {fileID: 11400000, guid: 0d16731ef61a7cf4cabd31756f387fe0, type: 2}
       Count: 10
       Delay: 1
-    Delay: 0
+    Delay: 2
   - Batch:
       Enemy: {fileID: 11400000, guid: a5d0e74957837f54daf8518b1c716092, type: 2}
       Count: 5
       Delay: 1
-    Delay: 0
+    Delay: 6

@@ -161,10 +161,34 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
         // Rotate tower head to aim at that direction
         m_headContainer.up = direction;
 
+        // Do we only fire a single projectile?
+        if(Data.ProjectileCount <= 1)
+        {
+            FireProjectile(direction);
+        }
+        else
+        {
+            // Rotate direction to one side of the cone
+            var radOffset = -Data.ProjectileSpread * Mathf.Deg2Rad * 0.5f;
+            direction = direction.RotateRad(radOffset);
+
+            // Rad spacing for each projectile
+            var radSpacing = Data.ProjectileSpread * Mathf.Deg2Rad / (Data.ProjectileCount - 1);
+
+            for (int i = 0; i < Data.ProjectileCount; i++)
+            {
+                FireProjectile(direction);
+                direction = direction.RotateRad(radSpacing);
+            }
+        }
+    }
+
+
+    private void FireProjectile(Vector3 direction)
+    {
         // Offset the direction based on our attackSpread
-        // Do that after rotating, or else the tower jitters like the projectiles
-        var directionOffset = Data.AttackSpread * Random.Range(-1.0f, 1.0f);
-        direction = direction.RotateRad(directionOffset);
+        var rad = Data.AttackSpread * Mathf.Deg2Rad * (Random.value - 0.5f);
+        direction = direction.RotateRad(rad);
 
         // Spawn and setup the projectile
         var projectile = Instantiate(Data.ProjectilePrefab, transform);
@@ -181,4 +205,15 @@ public class TowerController : GenericController<TowerData>, IPointerClickHandle
 
         // Debug.Log($"{name}: OnPointerClick()");
     }
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        var rangeColor = Color.blue;
+
+        Gizmos.color = rangeColor;
+        Gizmos.DrawWireSphere(transform.position, Data.AttackRadius);
+    }
+#endif
 }

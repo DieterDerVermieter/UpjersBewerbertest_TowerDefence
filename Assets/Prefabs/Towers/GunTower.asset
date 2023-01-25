@@ -18,8 +18,10 @@ MonoBehaviour:
   Price: 250
   GridSize: 2
   CanHitFlyingEnemies: 1
-  AttackRadius: 3
+  AttackRadius: 2
   TargetMode: 0
-  AttackSpeed: 0.7
+  AttackSpeed: 2
   AttackSpread: 0
+  ProjectileCount: 1
+  ProjectileSpread: 90
   ProjectilePrefab: {fileID: 8368848229916934228, guid: 3c65cd6626b04a34d941ef1ef12be334, type: 3}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe974c60442edbd4b84cef91285c35ad, type: 3}
+  m_Name: SniperTower
+  m_EditorClassIdentifier: 
+  ControllerPrefab: {fileID: 1593140798008447108, guid: df04836429f2a4147a1cea9bffd6ea72, type: 3}
+  DisplayName: Sniper Tower
+  Icon: {fileID: 486236728, guid: d155020d64fe69e4f95f6d75f7ad12b5, type: 3}
+  Price: 1900
+  GridSize: 2
+  CanHitFlyingEnemies: 1
+  AttackRadius: 4
+  TargetMode: 0
+  AttackSpeed: 1.2
+  AttackSpread: 0
+  ProjectileCount: 1
+  ProjectileSpread: 90
+  ProjectilePrefab: {fileID: 8368848229916934228, guid: 3e2cd88f86d17764fb7fc8a6e95bff07, type: 3}

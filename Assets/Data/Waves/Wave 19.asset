@@ -16,20 +16,20 @@ MonoBehaviour:
   - Batch:
       Enemy: {fileID: 11400000, guid: 67fd805dd0fd4a54da7fb52596c4ffe2, type: 2}
       Count: 10
-      Delay: 1
-    Delay: 0
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 0d16731ef61a7cf4cabd31756f387fe0, type: 2}
-      Count: 4
-      Delay: 1
+      Delay: 0.25
     Delay: 0
   - Batch:
       Enemy: {fileID: 11400000, guid: 0d16731ef61a7cf4cabd31756f387fe0, type: 2}
       Count: 10
       Delay: 1
-    Delay: 0
+    Delay: 2.5
   - Batch:
       Enemy: {fileID: 11400000, guid: a5d0e74957837f54daf8518b1c716092, type: 2}
       Count: 15
       Delay: 1
-    Delay: 0
+    Delay: 5
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 0d16731ef61a7cf4cabd31756f387fe0, type: 2}
+      Count: 4
+      Delay: 1
+    Delay: 15

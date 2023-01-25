@@ -16,25 +16,25 @@ MonoBehaviour:
   - Batch:
       Enemy: {fileID: 11400000, guid: f4fd4a1c6a94282499ee378b02d10978, type: 2}
       Count: 25
-      Delay: 1
+      Delay: 0.5
     Delay: 0
   - Batch:
       Enemy: {fileID: 11400000, guid: b31f361e1fb8b4b4aacbeda1be238dd7, type: 2}
       Count: 25
-      Delay: 1
-    Delay: 0
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 859c408875ed58f48959e77ca82ebbe9, type: 2}
-      Count: 7
-      Delay: 1
-    Delay: 0
-  - Batch:
-      Enemy: {fileID: 11400000, guid: 9438442b9e9fd5d45b7b8817cef39825, type: 2}
-      Count: 10
-      Delay: 1
-    Delay: 0
+      Delay: 0.5
+    Delay: 13
   - Batch:
       Enemy: {fileID: 11400000, guid: 589890b117619cb45957217addff7e40, type: 2}
       Count: 15
-      Delay: 1
-    Delay: 0
+      Delay: 0.25
+    Delay: 13
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 9438442b9e9fd5d45b7b8817cef39825, type: 2}
+      Count: 10
+      Delay: 0.5
+    Delay: 4
+  - Batch:
+      Enemy: {fileID: 11400000, guid: 859c408875ed58f48959e77ca82ebbe9, type: 2}
+      Count: 7
+      Delay: 0.25
+    Delay: 8

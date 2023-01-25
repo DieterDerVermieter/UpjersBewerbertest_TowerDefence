@@ -16,11 +16,15 @@ public class TowerData : GenericData<TowerController>
 
     [Header("Attack")]
     public bool CanHitFlyingEnemies = true;
+
     public float AttackRadius = 2.0f;
     public TowerController.TargetMode TargetMode;
 
-    public float AttackSpeed = 1.0f;
-    public float AttackSpread = 0.0f;
+    [Min(0.1f)] public float AttackSpeed = 1.0f;
+    [Range(0, 180)] public float AttackSpread = 0.0f;
+
+    [Min(1)] public int ProjectileCount = 1;
+    [Range(0, 180)] public float ProjectileSpread = 90.0f;
 
     public ProjectileController ProjectilePrefab;
 }
